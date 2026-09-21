@@ -131,17 +131,26 @@ app.post("/api/mowers/:id/actions", async (req, res) => {
       "Content-Type": "application/vnd.api+json"
     },
     body: JSON.stringify({
-      data: {
-        type:
-          req.body.action === "START_MOWING"
-            ? "Start"
-            : req.body.action === "PAUSE"
-            ? "Pause"
-            : req.body.action === "PARK_UNTIL_NEXT_SCHEDULE"
-            ? "ParkUntilNextSchedule"
-            : req.body.action === "PARK_UNTIL_FURTHER_NOTICE"
-            ? "ParkUntilFurtherNotice"
-            : "ResumeSchedule"
+  data: {
+    type:
+      req.body.action === "START_MOWING"
+        ? "Start"
+        : req.body.action === "PAUSE"
+        ? "Pause"
+        : req.body.action === "PARK_UNTIL_NEXT_SCHEDULE"
+        ? "ParkUntilNextSchedule"
+        : req.body.action === "PARK_UNTIL_FURTHER_NOTICE"
+        ? "ParkUntilFurtherNotice"
+        : "ResumeSchedule",
+    ...(req.body.action === "START_MOWING"
+      ? {
+          attributes: {
+            duration: 60
+          }
+        }
+      : {})
+  }
+})
       }
     })
   }
