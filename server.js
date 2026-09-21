@@ -109,11 +109,12 @@ app.get("/api/mowers/:id", async (req, res) => {
 app.post("/api/mowers/:id/actions", async (req, res) => {
   try {
     const allowedActions = [
-      "ResumeSchedule",
-      "PAUSE",
-      "PARK_UNTIL_NEXT_SCHEDULE",
-      "PARK_UNTIL_FURTHER_NOTICE",
-      "RESUME_SCHEDULE"
+  "START_MOWING",
+  "PAUSE",
+  "PARK_UNTIL_NEXT_SCHEDULE",
+  "PARK_UNTIL_FURTHER_NOTICE",
+  "RESUME_SCHEDULE"
+];
     ];
 
     if (!allowedActions.includes(req.body.action)) {
