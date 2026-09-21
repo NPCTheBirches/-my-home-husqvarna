@@ -115,7 +115,7 @@ app.post("/api/mowers/:id/actions", async (req, res) => {
   "PARK_UNTIL_FURTHER_NOTICE",
   "RESUME_SCHEDULE"
 ];
-    ];
+    
 
     if (!allowedActions.includes(req.body.action)) {
       return res.status(400).json({
