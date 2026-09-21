@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Home</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f3f5f7;
+  color: #1f2937;
+}
+
+header {
+  background: #17212b;
+  color: white;
+  padding: 24px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 30px;
+}
+
+header p {
+  margin: 5px 0 0;
+  opacity: .7;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.status {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.green {
+  color: #159447;
+}
+
+.battery {
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 5px;
+  font-size: 16px;
+  background: #17212b;
+  color: white;
+}
+
+button:active {
+  opacity: .7;
+}
+
+.small {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.error {
+  color: #c62828;
+}
+
+.loading {
+  color: #777;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>My Home</h1>
+  <p>Your home at a glance</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>🌿 Garden</h2>
+
+    <h3>Ken — Automower 430X</h3>
+
+    <div id="mowerStatus" class="status loading">
+      Connecting to mower...
+    </div>
+
+    <div class="row">
+      <span>Battery</span>
+      <span id="battery" class="battery">--%</span>
+    </div>
+
+    <div class="row">
+      <span>Connection</span>
+      <span id="connection">--</span>
+    </div>
+
+    <div class="row">
+      <span>Cutting height</span>
+      <span id="cuttingHeight">--</span>
+    </div>
+
+    <div>
+      <button onclick="mowerAction('START_MOWING')">
+        ▶ Start
+      </button>
+
+      <button onclick="mowerAction('PAUSE')">
+        ⏸ Pause
+      </button>
+
+      <button onclick="mowerAction('PARK_UNTIL_NEXT_SCHEDULE')">
+        🏠 Park
+      </button>
+    </div>
+
+    <p id="actionResult" class="small"></p>
+
+    <p id="updated" class="small"></p>
+  </div>
+
+  <div class="card">
+    <h2>🏠 Home</h2>
+
+    <div class="row">
+      <span>Temperature</span>
+      <span>--°C</span>
+    </div>
+
+    <div class="row">
+      <span>Heating</span>
+      <span>Not connected yet</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>⚡ Energy</h2>
+
+    <div class="row">
+      <span>Electricity</span>
+      <span>Not connected yet</span>
+    </div>
+
+    <div class="row">
+      <span>Gas</span>
+      <span>Not connected yet</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🚙 EV Charger</h2>
+    <p>Not connected yet</p>
+  </div>
+
+  <div class="card">
+    <h2>📷 Cameras</h2>
+    <p>Imou cameras will appear here.</p>
+  </div>
+
+</div>
+
+<script>
+
+const API = "https://my-home-husqvarna.onrender.com";
+
+async function loadMower() {
+
+  try {
+
+    const response = await fetch(API + "/api/mowers");
+
+    const result = await response.json();
+
+    if (!result.data || !result.data.length) {
+      throw new Error("No mower found");
+    }
+
+    const mower = result.data[0];
+    const a = mower.attributes;
+
+    document.getElementById("mowerStatus").textContent =
+      a.mower.activity.replaceAll("_", " ");
+
+    document.getElementById("mowerStatus").className =
+      "status green";
+
+    document.getElementById("battery").textContent =
+      a.battery.batteryPercent + "%";
+
+    document.getElementById("connection").textContent =
+      a.metadata.connected ? "Connected" : "Offline";
+
+    document.getElementById("cuttingHeight").textContent =
+      a.settings.cuttingHeight;
+
+    document.getElementById("updated").textContent =
+      "Live data received";
+
+  } catch (error) {
+
+    document.getElementById("mowerStatus").textContent =
+      "Unable to connect";
+
+    document.getElementById("mowerStatus").className =
+      "status error";
+
+    console.error(error);
+  }
+}
+
+async function mowerAction(action) {
+
+  const resultBox = document.getElementById("actionResult");
+
+  resultBox.textContent = "Sending command...";
+
+  try {
+
+    const response = await fetch(
+      API + "/api/mowers/24846e9d-9925-4dea-a24a-a97c2da45b18/actions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          action: action
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (result.error) {
+      resultBox.textContent = "Error: " + result.error;
+    } else {
+      resultBox.textContent = "Command sent successfully.";
+      setTimeout(loadMower, 3000);
+    }
+
+  } catch (error) {
+
+    resultBox.textContent =
+      "Could not send command.";
+
+  }
+}
+
+loadMower();
+
+setInterval(loadMower, 30000);
+
+</script>
+
+</body>
+</html>
