@@ -145,31 +145,7 @@ app.post("/api/mowers/:id/actions", async (req, res) => {
     })
   }
 );
-      `/mowers/${encodeURIComponent(req.params.id)}/actions`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/vnd.api+json"
-        },
-        body: JSON.stringify({
-  data: {
-    type:
-      req.body.action === "START_MOWING"
-        ? "StartMowing"
-        : req.body.action === "PAUSE"
-        ? "Pause"
-        : req.body.action === "PARK_UNTIL_NEXT_SCHEDULE"
-        ? "ParkUntilNextSchedule"
-        : req.body.action === "PARK_UNTIL_FURTHER_NOTICE"
-        ? "ParkUntilFurtherNotice"
-        : "ResumeSchedule"
-  }
-})
-            }
-          }
-        })
-      }
-    );
+  
 
     res.json(result);
   } catch (error) {
