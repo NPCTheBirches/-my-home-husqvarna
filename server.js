@@ -142,17 +142,12 @@ app.post("/api/mowers/:id/actions", async (req, res) => {
         : req.body.action === "PARK_UNTIL_FURTHER_NOTICE"
         ? "ParkUntilFurtherNotice"
         : "ResumeSchedule",
-    ...(req.body.action === "START_MOWING"
-      ? {
-          attributes: {
-            duration: 60
-          }
-        }
-      : {})
+    attributes:
+      req.body.action === "START_MOWING"
+        ? { duration: 60 }
+        : undefined
   }
 })
-      }
-    })
   }
 );
   
