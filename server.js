@@ -134,7 +134,7 @@ app.post("/api/mowers/:id/actions", async (req, res) => {
       data: {
         type:
           req.body.action === "START_MOWING"
-            ? "StartMowing"
+            ? "Start"
             : req.body.action === "PAUSE"
             ? "Pause"
             : req.body.action === "PARK_UNTIL_NEXT_SCHEDULE"
