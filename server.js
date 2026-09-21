@@ -1,12 +1,14 @@
 import express from "express";
 import cors from "cors";
-
+import path from "path";
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
-
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve("index.html"));
+});
 const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.HUSQVARNA_APPLICATION_KEY;
 const API_SECRET = process.env.HUSQVARNA_APPLICATION_SECRET;
