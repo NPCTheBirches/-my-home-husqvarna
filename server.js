@@ -632,7 +632,117 @@ app.get(
   }
 );
 
+// ---------------- IMOU STREAM TEST ----------------
 
+app.get(
+  "/api/imou/test-stream",
+  async (req, res) => {
+
+    try {
+
+      const deviceResult =
+        await imouRequest(
+          "/openapi/deviceBaseList",
+          {
+            bindId: -1,
+            limit: 128,
+            type: "bind",
+            needApInfo: true
+          }
+        );
+
+      const devices =
+        deviceResult?.result?.data?.deviceList || [];
+
+      if (!devices.length) {
+        throw new Error("No Imou cameras found.");
+      }
+
+      const device =
+        devices[0];
+
+      const deviceId =
+        device.deviceId;
+
+      const channel =
+        device.channels?.[0];
+
+      if (!channel) {
+        throw new Error("No camera channel found.");
+      }
+
+      const channelId =
+        String(channel.channelId);
+
+      let streamInfo = null;
+
+      try {
+
+        const existing =
+          await imouRequest(
+            "/openapi/getLiveStreamInfo",
+            {
+              deviceId,
+              channelId
+            }
+          );
+
+        streamInfo =
+          existing?.result?.data || null;
+
+      } catch (_) {
+        // Create the live address below.
+      }
+
+      if (!streamInfo?.streams?.length) {
+
+        const created =
+          await imouRequest(
+            "/openapi/bindDeviceLive",
+            {
+              deviceId,
+              channelId,
+              streamId: 1,
+              liveMode: "proxy"
+            }
+          );
+
+        streamInfo =
+          created?.result?.data || null;
+      }
+
+      const streams =
+        streamInfo?.streams || [];
+
+      const httpsStream =
+        streams.find(
+          stream =>
+            typeof stream?.hls === "string" &&
+            stream.hls.startsWith("https://")
+        );
+
+      if (!httpsStream?.hls) {
+        throw new Error(
+          "Imou did not return an HTTPS HLS stream."
+        );
+      }
+
+      res.redirect(
+        httpsStream.hls
+      );
+
+    } catch (error) {
+
+      res.status(502).send(
+        "Stream test failed: " +
+        error.message
+      );
+
+    }
+  }
+);
+
+// ---------------- END IMOU STREAM TEST ----------------
 // ---------------- END IMOU CAMERA API ----------------
 
 
