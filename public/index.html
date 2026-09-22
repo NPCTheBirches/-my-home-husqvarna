@@ -569,8 +569,7 @@ async function loadCameras(){
         live.textContent=
           "▶  Watch live";
 
-        live.href=
-          camera.hls;
+        live.href="/api/imou/stream?deviceId=" + encodeURIComponent(camera.deviceId) + "&channelId=" + encodeURIComponent(camera.channelId);
 
         live.target="_blank";
 
