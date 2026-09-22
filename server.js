@@ -741,7 +741,75 @@ app.get(
     }
   }
 );
+// ---------------- IMOU CAMERA STREAM REDIRECT ----------------
 
+app.get("/api/imou/stream", async (req, res) => {
+  try {
+    const deviceId = req.query.deviceId;
+    const channelId = String(req.query.channelId || "0");
+
+    if (!deviceId) {
+      return res.status(400).send("Missing deviceId");
+    }
+
+    let streamInfo = null;
+
+    try {
+      const existing = await imouRequest(
+        "/openapi/getLiveStreamInfo",
+        {
+          deviceId,
+          channelId
+        }
+      );
+
+      streamInfo = existing?.result?.data || null;
+
+    } catch (_) {
+      // No existing live address — create one below.
+    }
+
+    if (!streamInfo?.streams?.length) {
+
+      const created = await imouRequest(
+        "/openapi/bindDeviceLive",
+        {
+          deviceId,
+          channelId,
+          streamId: 1,
+          liveMode: "proxy"
+        }
+      );
+
+      streamInfo = created?.result?.data || null;
+    }
+
+    const httpsStream =
+      (streamInfo?.streams || []).find(
+        stream =>
+          typeof stream?.hls === "string" &&
+          stream.hls.startsWith("https://")
+      );
+
+    if (!httpsStream?.hls) {
+      throw new Error(
+        "No HTTPS HLS stream was returned."
+      );
+    }
+
+    res.redirect(httpsStream.hls);
+
+  } catch (error) {
+
+    res.status(502).send(
+      "Unable to open camera stream: " +
+      error.message
+    );
+
+  }
+});
+
+// ---------------- END IMOU CAMERA STREAM REDIRECT ----------------
 // ---------------- END IMOU STREAM TEST ----------------
 // ---------------- END IMOU CAMERA API ----------------
 
