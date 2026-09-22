@@ -318,24 +318,6 @@ const state =
 const connected =
   a?.metadata?.connected === true;
 
-const state =
-  typeof a?.activity === 'string'
-    ? a.activity
-    : typeof a?.activity?.state === 'string'
-    ? a.activity.state
-    : typeof a?.status === 'string'
-    ? a.status
-    : typeof a?.status?.state === 'string'
-    ? a.status.state
-    : 'Unknown';
-
-const connected =
-  a?.connected === true ||
-  a?.connection?.connected === true;
-      a?.connected ??
-      a?.connection?.connected ??
-      false;
-
     document.getElementById('mowerBattery').textContent =
       battery === '—' ? '—' : battery + '%';
 
