@@ -298,74 +298,70 @@ n.classList.remove('hidden');
 
 async function loadMower(){
 
-try{
+  try{
 
-const r=await fetch('/api/mowers');
+    const r = await fetch('/api/mowers');
 
-if(!r.ok)
-throw new Error(await r.text());
+    if(!r.ok)
+      throw new Error(await r.text());
 
-const j=await r.json();
+    const j = await r.json();
 
-const m=j?.data?.[0]||j?.[0]||j;
+    const m = j?.data?.[0] || j?.[0] || j;
+    const a = m?.attributes || m || {};
 
-const a=m?.attributes||m||{};
+    const battery =
+      a?.batteryPercent ??
+      a?.battery?.percent ??
+      a?.battery?.level ??
+      a?.battery ??
+      '—';
 
-const battery=
-a?.battery?.percent ??
-a?.battery ??
-a?.batteryLevel ??
-'—';
+    const state =
+      a?.activity?.state ??
+      a?.activity ??
+      a?.status?.state ??
+      a?.status ??
+      'Unknown';
 
-const state=
-a?.activity?.state ??
-a?.activity ??
-a?.status?.state ??
-a?.status ??
-'Unknown';
+    const connected =
+      a?.connected ??
+      a?.connection?.connected ??
+      false;
 
-const connected=
-a?.connection?.connected ??
-a?.connected ??
-a?.connectionStatus ??
-false;
+    document.getElementById('mowerBattery').textContent =
+      battery === '—' ? '—' : battery + '%';
 
+    document.getElementById('mowerState').textContent =
+      String(state);
 
-document.getElementById('mowerBattery').textContent =
-battery==='—' ? '—' : battery+'%';
+    document.getElementById('gardenBattery').textContent =
+      battery === '—' ? '—' : battery + '% battery';
 
-document.getElementById('mowerState').textContent =
-String(state);
+    document.getElementById('gardenState').textContent =
+      String(state);
 
-document.getElementById('gardenBattery').textContent =
-battery==='—' ? '—' : battery+'% battery';
+    document.getElementById('gardenConnection').textContent =
+      connected ? 'Connected' : 'Cloud connection unavailable';
 
-document.getElementById('gardenState').textContent =
-String(state);
+    document.getElementById('mowerConnection').textContent =
+      connected ? 'Connected' : 'Offline';
 
-document.getElementById('gardenConnection').textContent =
-connected ? 'Connected' : 'Cloud connection unavailable';
+  } catch(e) {
 
-document.getElementById('mowerConnection').textContent =
-connected ? 'Connected' : 'Offline';
+    document.getElementById('mowerState').textContent =
+      'Unavailable';
 
-}
+    document.getElementById('gardenState').textContent =
+      'Unable to load Ken';
 
-catch(e){
+    document.getElementById('gardenConnection').textContent =
+      'Unavailable';
 
-document.getElementById('mowerState').textContent =
-'Unavailable';
+    document.getElementById('mowerConnection').textContent =
+      'Unavailable';
 
-document.getElementById('gardenState').textContent =
-'Unable to load Ken';
-
-document.getElementById('gardenConnection').textContent =
-'Unavailable';
-
-document.getElementById('mowerConnection').textContent =
-'Unavailable';
-
-}
+  }
 
 }
 
