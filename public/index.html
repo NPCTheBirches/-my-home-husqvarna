@@ -1,0 +1,453 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<title>My Home</title>
+<style>
+:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111827;background:#f3f5f7}
+*{box-sizing:border-box}
+body{margin:0}
+.wrap{max-width:760px;margin:auto;padding:22px 16px 95px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+h1{font-size:30px;margin:0}
+.muted{color:#6b7280}
+.avatar{width:42px;height:42px;border-radius:50%;background:#111827;color:white;display:grid;place-items:center;font-weight:700}
+.hero{background:linear-gradient(135deg,#111827,#334155);color:white;border-radius:24px;padding:22px;margin-bottom:14px}
+.hero .temp{font-size:48px;font-weight:800;margin:4px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:white;border:1px solid #e5e7eb;border-radius:20px;padding:16px;box-shadow:0 4px 16px #0000000a}
+.wide{margin-top:14px}
+.title{font-weight:750;font-size:18px;margin:0 0 10px}
+.label{font-size:13px;color:#6b7280}
+.big{font-size:25px;font-weight:800;margin-top:3px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eef0f2}
+.row:last-child{border-bottom:0}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+button{border:0;border-radius:12px;padding:9px 12px;font-weight:700;background:#eef2ff;color:#2747a0}
+button.dark{background:#111827;color:#fff}
+button.light{background:#f3f4f6;color:#374151}
+.status{font-size:12px;margin-top:8px}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#16a34a;margin-right:5px}
+.notice{background:#fff7e6;border:1px solid #f6d58b;padding:12px;border-radius:14px;font-size:13px;margin-top:14px}
+.tabs{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:min(720px,calc(100% - 24px));display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:6px;box-shadow:0 12px 35px #0002}
+.tab{border:0;background:transparent;color:#6b7280;text-align:center;font-size:12px}
+.tab.active{color:#1d4ed8}
+.page{display:none}
+.page.active{display:block}
+.bar{height:8px;background:#edf0f2;border-radius:99px;overflow:hidden}
+.fill{height:100%;background:#111827;width:0}
+.small{font-size:12px}
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="top">
+<div>
+<h1>My Home</h1>
+<div class="muted" id="clock">—</div>
+</div>
+<div class="avatar">N</div>
+</header>
+
+<div class="page active" id="homePage">
+
+<section class="hero">
+<div class="small">HOUSE TEMPERATURE</div>
+<div class="temp" id="homeTemp">19.9°C</div>
+<div id="homeTarget">Hive thermostat · live value to be connected</div>
+</section>
+
+<div class="grid">
+
+<div class="card">
+<div class="label">Electricity today</div>
+<div class="big" id="electricityToday">23.45 kWh</div>
+<div class="muted small">Latest So Energy day shown: 21 Sep</div>
+</div>
+
+<div class="card">
+<div class="label">Gas today</div>
+<div class="big" id="gasToday">29.31 kWh</div>
+<div class="muted small">Latest So Energy day shown: 21 Sep</div>
+</div>
+
+<div class="card">
+<div class="label">Energy cost</div>
+<div class="big" id="energyCost">£6.71</div>
+<div class="muted small">Electricity + gas, 21 Sep</div>
+</div>
+
+<div class="card">
+<div class="label">Automower Ken</div>
+<div class="big" id="mowerBattery">—</div>
+<div class="muted" id="mowerState">Loading…</div>
+</div>
+
+</div>
+
+<section class="card wide">
+
+<div class="title">Home status</div>
+
+<div class="row">
+<div>
+<b>Heating</b>
+<div class="muted">Hive · one zone</div>
+</div>
+<b id="heatingStatus">Connected</b>
+</div>
+
+<div class="row">
+<div>
+<b>Energy</b>
+<div class="muted">So Energy half-hourly data</div>
+</div>
+<b>Available</b>
+</div>
+
+<div class="row">
+<div>
+<b>Garden</b>
+<div class="muted">Ken · Husqvarna</div>
+</div>
+<b id="mowerConnection">Checking…</b>
+</div>
+
+</section>
+
+<div id="notice" class="notice hidden"></div>
+
+</div>
+
+
+<div class="page" id="energyPage">
+
+<section class="card">
+
+<div class="title">Energy</div>
+
+<div class="muted">
+Latest day available from your So Energy account
+</div>
+
+<div class="grid" style="margin-top:12px">
+
+<div class="card">
+<div class="label">Electricity</div>
+<div class="big">23.45 kWh</div>
+<div class="muted">£5.05</div>
+</div>
+
+<div class="card">
+<div class="label">Gas</div>
+<div class="big">29.31 kWh</div>
+<div class="muted">£1.65</div>
+</div>
+
+</div>
+
+<div style="margin-top:18px">
+
+<div class="label">
+Total 52.76 kWh · £6.71
+</div>
+
+<div class="bar" style="margin-top:8px">
+<div class="fill" style="width:44.5%"></div>
+</div>
+
+</div>
+
+<div class="notice">
+So Energy is providing the half-hourly usage through your account. A direct live So Energy API has not been established, so this screen deliberately does not pretend the figures are live.
+</div>
+
+</section>
+
+</div>
+
+
+<div class="page" id="gardenPage">
+
+<section class="card">
+
+<div class="title">
+Ken · Husqvarna Automower 430X
+</div>
+
+<div class="big" id="gardenBattery">—</div>
+
+<div id="gardenState" class="muted">
+Loading…
+</div>
+
+<div class="status">
+<span class="dot"></span>
+<span id="gardenConnection">Checking connection…</span>
+</div>
+
+<div class="actions">
+
+<button class="dark" onclick="mowerAction('START_MOWING')">
+▶ Start
+</button>
+
+<button onclick="mowerAction('PAUSE')">
+⏸ Pause
+</button>
+
+<button class="light" onclick="mowerAction('PARK_UNTIL_NEXT_SCHEDULE')">
+🏠 Park
+</button>
+
+</div>
+
+<div id="actionResult" class="muted small" style="margin-top:10px"></div>
+
+</section>
+
+</div>
+
+
+<div class="page" id="cameraPage">
+
+<section class="card">
+
+<div class="title">
+Cameras
+</div>
+
+<div class="muted">
+Imou cameras
+</div>
+
+<div class="notice">
+The camera interface is ready, but I won't pretend a live feed is connected until we establish the correct Imou account/API integration.
+</div>
+
+</section>
+
+</div>
+
+</div>
+
+
+<nav class="tabs">
+
+<button class="tab active" data-page="homePage">
+⌂<br>Home
+</button>
+
+<button class="tab" data-page="energyPage">
+⚡<br>Energy
+</button>
+
+<button class="tab" data-page="gardenPage">
+🌱<br>Garden
+</button>
+
+<button class="tab" data-page="cameraPage">
+📷<br>Cameras
+</button>
+
+</nav>
+
+
+<script>
+
+const MOWER_ID='24846e9d-9925-4dea-a24a-a97c2da45b18';
+
+function tick(){
+
+document.getElementById('clock').textContent =
+new Date().toLocaleString(
+'en-GB',
+{
+weekday:'short',
+day:'numeric',
+month:'short',
+hour:'2-digit',
+minute:'2-digit'
+}
+);
+
+}
+
+tick();
+
+setInterval(tick,30000);
+
+
+function showNotice(t){
+
+const n=document.getElementById('notice');
+
+n.textContent=t;
+
+n.classList.remove('hidden');
+
+}
+
+
+async function loadMower(){
+
+try{
+
+const r=await fetch('/api/mowers');
+
+if(!r.ok)
+throw new Error(await r.text());
+
+const j=await r.json();
+
+const m=j?.data?.[0]||j?.[0]||j;
+
+const a=m?.attributes||m||{};
+
+const battery=
+a?.battery?.percent ??
+a?.battery ??
+a?.batteryLevel ??
+'—';
+
+const state=
+a?.activity?.state ??
+a?.activity ??
+a?.status?.state ??
+a?.status ??
+'Unknown';
+
+const connected=
+a?.connection?.connected ??
+a?.connected ??
+a?.connectionStatus ??
+false;
+
+
+document.getElementById('mowerBattery').textContent =
+battery==='—' ? '—' : battery+'%';
+
+document.getElementById('mowerState').textContent =
+String(state);
+
+document.getElementById('gardenBattery').textContent =
+battery==='—' ? '—' : battery+'% battery';
+
+document.getElementById('gardenState').textContent =
+String(state);
+
+document.getElementById('gardenConnection').textContent =
+connected ? 'Connected' : 'Cloud connection unavailable';
+
+document.getElementById('mowerConnection').textContent =
+connected ? 'Connected' : 'Offline';
+
+}
+
+catch(e){
+
+document.getElementById('mowerState').textContent =
+'Unavailable';
+
+document.getElementById('gardenState').textContent =
+'Unable to load Ken';
+
+document.getElementById('gardenConnection').textContent =
+'Unavailable';
+
+document.getElementById('mowerConnection').textContent =
+'Unavailable';
+
+}
+
+}
+
+
+async function mowerAction(action){
+
+const box=document.getElementById('actionResult');
+
+box.textContent='Sending command…';
+
+try{
+
+const r=await fetch(
+'/api/mowers/'+MOWER_ID+'/actions',
+{
+method:'POST',
+headers:{
+'Content-Type':'application/json'
+},
+body:JSON.stringify({
+action
+})
+}
+);
+
+const j=await r.json();
+
+if(!r.ok||j.error)
+throw new Error(
+j.error||'Command failed'
+);
+
+box.textContent='Command sent.';
+
+setTimeout(loadMower,3000);
+
+}
+
+catch(e){
+
+box.textContent='Error: '+e.message;
+
+}
+
+}
+
+
+document
+.querySelectorAll('.tab')
+.forEach(
+b=>b.addEventListener(
+'click',
+()=>{
+
+document
+.querySelectorAll('.tab')
+.forEach(
+x=>x.classList.remove('active')
+);
+
+document
+.querySelectorAll('.page')
+.forEach(
+x=>x.classList.remove('active')
+);
+
+b.classList.add('active');
+
+document
+.getElementById(b.dataset.page)
+.classList.add('active');
+
+}
+)
+);
+
+
+loadMower();
+
+setInterval(loadMower,30000);
+
+</script>
+
+</body>
+</html>
