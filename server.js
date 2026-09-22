@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve("index.html"));
+  res.sendFile(path.resolve("public/index.html"));
 });
 const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.HUSQVARNA_APPLICATION_KEY;
