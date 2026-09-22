@@ -108,56 +108,99 @@ app.get("/api/mowers/:id", async (req, res) => {
 
 app.post("/api/mowers/:id/actions", async (req, res) => {
   try {
-    const allowedActions = [
-  "START_MOWING",
-  "PAUSE",
-  "PARK_UNTIL_NEXT_SCHEDULE",
-  "PARK_UNTIL_FURTHER_NOTICE",
-  "RESUME_SCHEDULE"
-];
-    
+    async function imouRequest(endpoint, params = {}) {
 
-    if (!allowedActions.includes(req.body.action)) {
-      return res.status(400).json({
-        error: "Unsupported mower action"
-      });
-    }
+  const token = await getImouToken();
 
-    const result = await husqvarna(
-  `/mowers/${encodeURIComponent(req.params.id)}/actions`,
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/vnd.api+json"
+  const { createHash, createHmac, randomUUID } =
+    await import("node:crypto");
+
+  const time = Math.floor(Date.now() / 1000);
+  const nonce = randomUUID();
+
+  const signTemplate =
+    `time:${time},nonce:${nonce},appSecret:${IMOU_APP_SECRET}`;
+
+  const password =
+    createHash("sha256")
+      .update(IMOU_APP_SECRET)
+      .digest("hex");
+
+  const sign =
+    createHmac("sha256", password)
+      .update(signTemplate)
+      .digest("base64");
+
+  const body = {
+    system: {
+      ver: "1.0",
+      appId: IMOU_APP_ID,
+      sign,
+      time,
+      nonce
     },
-    body: JSON.stringify({
-  data: {
-    type:
-      req.body.action === "START_MOWING"
-        ? "Start"
-        : req.body.action === "PAUSE"
-        ? "Pause"
-        : req.body.action === "PARK_UNTIL_NEXT_SCHEDULE"
-        ? "ParkUntilNextSchedule"
-        : req.body.action === "PARK_UNTIL_FURTHER_NOTICE"
-        ? "ParkUntilFurtherNotice"
-        : "ResumeSchedule",
-    attributes:
-      req.body.action === "START_MOWING"
-        ? { duration: 60 }
-        : undefined
+    id: randomUUID(),
+    params: {
+      token,
+      ...params
+    }
+  };
+
+  const response = await fetch(
+    `${imouHost}${endpoint}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          "application/json;charset=UTF-8"
+      },
+      body: JSON.stringify(body)
+    }
+  );
+
+  const json = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      `Imou API HTTP ${response.status}`
+    );
   }
-})
+
+  if (json?.result?.code !== "0") {
+    throw new Error(
+      `Imou API ${json?.result?.code || "unknown"}: ${json?.result?.msg || "Unknown error"}`
+    );
   }
-);
-  
+
+  return json;
+}
+
+app.get("/api/imou/devices", async (req, res) => {
+
+  try {
+
+    const result =
+      await imouRequest(
+        "/openapi/deviceBaseList",
+        {
+          bindId: -1,
+          limit: 128,
+          type: "bind",
+          needApInfo: true
+        }
+      );
 
     res.json(result);
+
   } catch (error) {
-    res.status(502).json({ error: error.message });
+
+    res.status(502).json({
+      error: error.message
+    });
+
   }
+
 });
-// ---------------- IMOU CAMERA API ----------------
 
 const IMOU_APP_ID = process.env.IMOU_APP_ID;
 const IMOU_APP_SECRET = process.env.IMOU_APP_SECRET;
