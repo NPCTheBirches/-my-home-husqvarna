@@ -157,7 +157,6 @@ app.post("/api/mowers/:id/actions", async (req, res) => {
     );
 
     res.json(result);
-
   } catch (error) {
     res.status(502).json({
       error: error.message
@@ -440,7 +439,202 @@ app.get(
 );
 
 
+// ---------------- IMOU LIVE STREAMS ----------------
+
+app.get(
+  "/api/imou/streams",
+  async (req, res) => {
+
+    try {
+
+      const deviceResult =
+        await imouRequest(
+          "/openapi/deviceBaseList",
+          {
+            bindId: -1,
+            limit: 128,
+            type: "bind",
+            needApInfo: true
+          }
+        );
+
+      const devices =
+        deviceResult?.result?.data?.deviceList || [];
+
+      const cameras = [];
+
+      for (const device of devices) {
+
+        const deviceId =
+          device?.deviceId;
+
+        const channels =
+          device?.channels || [];
+
+        if (!deviceId) continue;
+
+        for (const channel of channels) {
+
+          const channelId =
+            String(
+              channel?.channelId ?? "0"
+            );
+
+          let streamInfo = null;
+
+          // First try an existing live address.
+          try {
+
+            const existing =
+              await imouRequest(
+                "/openapi/getLiveStreamInfo",
+                {
+                  deviceId,
+                  channelId
+                }
+              );
+
+            streamInfo =
+              existing?.result?.data || null;
+
+          } catch (_) {
+
+            // No existing live address.
+          }
+
+
+          // If none exists, create one.
+          if (
+            !streamInfo?.streams?.length
+          ) {
+
+            try {
+
+              const created =
+                await imouRequest(
+                  "/openapi/bindDeviceLive",
+                  {
+                    deviceId,
+                    channelId,
+                    streamId: 1,
+                    liveMode: "proxy"
+                  }
+                );
+
+              streamInfo =
+                created?.result?.data || null;
+
+            } catch (createError) {
+
+              cameras.push({
+                deviceId,
+                channelId,
+
+                name:
+                  channel?.channelName ||
+                  `Camera ${cameras.length + 1}`,
+
+                error:
+                  createError.message
+              });
+
+              continue;
+            }
+          }
+
+
+          const streams =
+            streamInfo?.streams || [];
+
+
+          // Prefer HD HTTPS.
+          // Then SD HTTPS.
+          // Then any HTTPS stream.
+          const httpsStreams =
+            streams.filter(
+              stream =>
+                typeof stream?.hls === "string" &&
+                stream.hls.startsWith("https://")
+            );
+
+
+          const selected =
+            httpsStreams.find(
+              stream =>
+                stream.streamId === 0
+            ) ||
+
+            httpsStreams.find(
+              stream =>
+                stream.streamId === 1
+            ) ||
+
+            httpsStreams[0] ||
+
+            streams.find(
+              stream =>
+                typeof stream?.hls === "string"
+            );
+
+
+          cameras.push({
+
+            deviceId,
+
+            channelId,
+
+            name:
+              channel?.channelName ||
+              `Camera ${cameras.length + 1}`,
+
+            connected:
+              true,
+
+            streamId:
+              selected?.streamId ?? null,
+
+            hls:
+              selected?.hls || null,
+
+            coverUrl:
+              selected?.coverUrl || null,
+
+            streams:
+              httpsStreams.map(
+                stream => ({
+                  streamId:
+                    stream.streamId,
+
+                  hls:
+                    stream.hls,
+
+                  status:
+                    stream.status
+                })
+              )
+          });
+
+        }
+      }
+
+      res.json({
+        cameras
+      });
+
+    } catch (error) {
+
+      res.status(502).json({
+        error: error.message
+      });
+
+    }
+
+  }
+);
+
+
 // ---------------- END IMOU CAMERA API ----------------
+
 
 app.listen(
   PORT,
