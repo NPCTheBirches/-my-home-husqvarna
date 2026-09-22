@@ -3,29 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
 <title>My Home</title>
 
 <style>
-
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Arial,
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   background: #f3f5f7;
   color: #17202a;
 }
 
 .header {
-  background: #ffffff;
+  background: #fff;
   padding: 22px 22px 16px;
   border-bottom: 1px solid #e2e6e9;
   position: sticky;
@@ -48,7 +41,7 @@ body {
   display: flex;
   gap: 8px;
   padding: 12px 16px;
-  background: #ffffff;
+  background: #fff;
   border-bottom: 1px solid #e2e6e9;
   overflow-x: auto;
   position: sticky;
@@ -57,7 +50,7 @@ body {
 }
 
 .tab {
-  border: none;
+  border: 0;
   background: #eef1f3;
   padding: 10px 18px;
   border-radius: 22px;
@@ -87,8 +80,7 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns:
-    repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 16px;
 }
 
@@ -96,8 +88,7 @@ body {
   background: white;
   border-radius: 18px;
   padding: 20px;
-  box-shadow:
-    0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .card-title {
@@ -120,8 +111,7 @@ body {
 .section-title {
   font-size: 22px;
   font-weight: 700;
-  margin:
-    8px 0 16px;
+  margin: 8px 0 16px;
 }
 
 .status {
@@ -137,10 +127,6 @@ body {
   height: 9px;
   border-radius: 50%;
   background: #2da44e;
-}
-
-.dot.offline {
-  background: #c63c3c;
 }
 
 .notice {
@@ -159,7 +145,7 @@ body {
 }
 
 button.action {
-  border: none;
+  border: 0;
   border-radius: 12px;
   padding: 12px 18px;
   font-size: 15px;
@@ -173,22 +159,14 @@ button.action.secondary {
   color: #17202a;
 }
 
-button.action.danger {
-  background: #b93434;
-  color: white;
-}
-
-button.action:active {
-  transform: scale(0.98);
-}
-
 .result {
   margin-top: 14px;
   font-size: 14px;
   color: #68737b;
 }
 
-/* CAMERA PAGE */
+
+/* CAMERA SECTION */
 
 .camera-toolbar {
   display: flex;
@@ -203,71 +181,127 @@ button.action:active {
   font-size: 14px;
 }
 
-.camera-grid {
-  display: grid;
-  grid-template-columns:
-    repeat(auto-fit, minmax(320px, 1fr));
-  gap: 18px;
-}
-
-.camera-card {
+.live-panel {
   background: #111820;
-  border-radius: 18px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow:
-    0 4px 15px rgba(0,0,0,0.12);
+  margin-bottom: 22px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.15);
 }
 
-.camera-header {
-  padding: 14px 16px;
+.live-header {
+  padding: 15px 18px;
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.camera-name {
-  font-weight: 600;
-  font-size: 16px;
+.live-name {
+  font-size: 18px;
+  font-weight: 700;
 }
 
-.camera-status {
-  font-size: 12px;
-  color: #9ee2b1;
+.live-status {
+  color: #8fe3a4;
+  font-size: 13px;
 }
 
-.camera-video {
+.live-video-wrap {
+  background: #000;
+  position: relative;
+}
+
+.live-video {
   width: 100%;
   display: block;
   background: #000;
   aspect-ratio: 16 / 9;
-  object-fit: cover;
+  object-fit: contain;
 }
 
-.camera-footer {
+.live-placeholder {
+  aspect-ratio: 16 / 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #aeb8bf;
+  font-size: 15px;
+  text-align: center;
+  padding: 30px;
+}
+
+.live-footer {
   padding: 12px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
-.camera-footer button {
-  border: none;
+.live-footer button {
+  border: 0;
   background: #27313a;
   color: white;
   border-radius: 10px;
-  padding: 8px 12px;
+  padding: 9px 13px;
 }
 
-.camera-error {
+.camera-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.camera-tile {
+  background: #111820;
+  border-radius: 17px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+  transition: transform .15s ease;
+}
+
+.camera-tile:active {
+  transform: scale(.98);
+}
+
+.camera-tile.selected {
+  outline: 3px solid #3b82f6;
+}
+
+.camera-thumb {
+  width: 100%;
   aspect-ratio: 16 / 9;
+  background: #1b242c;
+  object-fit: cover;
+  display: block;
+}
+
+.camera-no-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #1b242c;
   display: flex;
-  align-items: center;
   justify-content: center;
-  color: #c8d0d6;
-  background: #151d24;
-  text-align: center;
-  padding: 20px;
+  align-items: center;
+  color: #89959d;
+  font-size: 14px;
+}
+
+.camera-tile-info {
+  padding: 13px 15px;
+  color: white;
+}
+
+.camera-tile-name {
+  font-weight: 600;
+}
+
+.camera-tile-status {
+  color: #8fe3a4;
+  font-size: 12px;
+  margin-top: 4px;
 }
 
 .loading {
@@ -307,7 +341,6 @@ button.action:active {
 }
 
 @media (max-width: 600px) {
-
   .container {
     padding: 14px;
   }
@@ -322,52 +355,47 @@ button.action:active {
   }
 
   .camera-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
   }
 
-}
+  .camera-tile-info {
+    padding: 10px;
+  }
 
+  .camera-tile-name {
+    font-size: 14px;
+  }
+}
 </style>
 </head>
 
 <body>
 
 <header class="header">
-
-  <div class="header-title">
-    My Home
-  </div>
-
-  <div class="header-subtitle">
-    Home control & monitoring
-  </div>
-
+  <div class="header-title">My Home</div>
+  <div class="header-subtitle">Home control & monitoring</div>
 </header>
-
 
 <nav class="tabs">
 
-  <button
-    class="tab active"
-    onclick="showPage('homePage', this)">
+  <button class="tab active"
+          onclick="showPage('homePage', this)">
     Home
   </button>
 
-  <button
-    class="tab"
-    onclick="showPage('energyPage', this)">
+  <button class="tab"
+          onclick="showPage('energyPage', this)">
     Energy
   </button>
 
-  <button
-    class="tab"
-    onclick="showPage('gardenPage', this)">
+  <button class="tab"
+          onclick="showPage('gardenPage', this)">
     Garden
   </button>
 
-  <button
-    class="tab"
-    onclick="showPage('cameraPage', this)">
+  <button class="tab"
+          onclick="showPage('cameraPage', this)">
     Cameras
   </button>
 
@@ -379,128 +407,51 @@ button.action:active {
 
 <!-- HOME -->
 
-<section
-  id="homePage"
-  class="page active">
+<section id="homePage" class="page active">
 
-  <div class="section-title">
-    Home
-  </div>
+  <div class="section-title">Home</div>
 
   <div class="grid">
 
     <div class="card">
-
-      <div class="card-title">
-        House temperature
-      </div>
-
-      <div
-        id="homeTemperature"
-        class="card-value">
-        19.9°C
-      </div>
-
-      <div class="card-small">
-        Hive thermostat
-      </div>
-
+      <div class="card-title">House temperature</div>
+      <div class="card-value">19.9°C</div>
+      <div class="card-small">Hive thermostat</div>
     </div>
 
-
     <div class="card">
-
-      <div class="card-title">
-        Electricity
-      </div>
-
-      <div
-        id="homeElectricity"
-        class="card-value">
-        23.45 kWh
-      </div>
-
-      <div class="card-small">
-        Latest So Energy day
-      </div>
-
+      <div class="card-title">Electricity</div>
+      <div class="card-value">23.45 kWh</div>
+      <div class="card-small">Latest So Energy day</div>
     </div>
 
-
     <div class="card">
-
-      <div class="card-title">
-        Gas
-      </div>
-
-      <div
-        id="homeGas"
-        class="card-value">
-        29.31 kWh
-      </div>
-
-      <div class="card-small">
-        Latest So Energy day
-      </div>
-
+      <div class="card-title">Gas</div>
+      <div class="card-value">29.31 kWh</div>
+      <div class="card-small">Latest So Energy day</div>
     </div>
 
-
     <div class="card">
-
-      <div class="card-title">
-        Energy cost
-      </div>
-
-      <div
-        id="homeEnergyCost"
-        class="card-value">
-        £6.71
-      </div>
-
-      <div class="card-small">
-        Latest So Energy day
-      </div>
-
+      <div class="card-title">Energy cost</div>
+      <div class="card-value">£6.71</div>
+      <div class="card-small">Latest So Energy day</div>
     </div>
 
-
     <div class="card">
-
-      <div class="card-title">
-        Ken
-      </div>
-
-      <div
-        id="mowerBattery"
-        class="card-value">
-        —
-      </div>
-
-      <div
-        id="mowerState"
-        class="card-small">
-        Loading…
-      </div>
-
+      <div class="card-title">Ken</div>
+      <div id="mowerBattery" class="card-value">—</div>
+      <div id="mowerState" class="card-small">Loading…</div>
     </div>
 
-
     <div class="card">
-
-      <div class="card-title">
-        Home status
-      </div>
-
+      <div class="card-title">Home status</div>
       <div class="status">
         <span class="dot"></span>
         <span>Systems connected</span>
       </div>
-
       <div class="card-small">
         Hive · Energy · Garden · Cameras
       </div>
-
     </div>
 
   </div>
@@ -510,102 +461,37 @@ button.action:active {
 
 <!-- ENERGY -->
 
-<section
-  id="energyPage"
-  class="page">
+<section id="energyPage" class="page">
 
-  <div class="section-title">
-    Energy
-  </div>
+  <div class="section-title">Energy</div>
 
   <div class="grid">
 
     <div class="card">
-
-      <div class="card-title">
-        Electricity
-      </div>
-
-      <div class="card-value">
-        23.45 kWh
-      </div>
-
+      <div class="card-title">Electricity</div>
+      <div class="card-value">23.45 kWh</div>
       <div class="energy-bar">
         <div class="energy-bar-inner"></div>
       </div>
-
-      <div class="card-small">
-        SO EV Peak + Off-Peak
-      </div>
-
+      <div class="card-small">SO EV Peak + Off-Peak</div>
     </div>
-
 
     <div class="card">
-
-      <div class="card-title">
-        Gas
-      </div>
-
-      <div class="card-value">
-        29.31 kWh
-      </div>
-
-      <div class="card-small">
-        Latest available So Energy reading
-      </div>
-
+      <div class="card-title">Gas</div>
+      <div class="card-value">29.31 kWh</div>
+      <div class="card-small">Latest So Energy reading</div>
     </div>
-
 
     <div class="card">
-
-      <div class="card-title">
-        Total usage
-      </div>
-
-      <div class="card-value">
-        52.76 kWh
-      </div>
-
-      <div class="card-small">
-        Latest So Energy day
-      </div>
-
+      <div class="card-title">Total usage</div>
+      <div class="card-value">52.76 kWh</div>
+      <div class="card-small">Latest So Energy day</div>
     </div>
-
 
     <div class="card">
-
-      <div class="card-title">
-        Total cost
-      </div>
-
-      <div class="card-value">
-        £6.71
-      </div>
-
-      <div class="card-small">
-        Latest So Energy day
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div style="height:18px"></div>
-
-  <div class="card">
-
-    <div class="card-title">
-      Energy information
-    </div>
-
-    <div class="notice">
-      Your So Energy readings currently shown here are the
-      latest values we have recorded. Live So Energy account
-      integration can be added separately.
+      <div class="card-title">Total cost</div>
+      <div class="card-value">£6.71</div>
+      <div class="card-small">Latest So Energy day</div>
     </div>
 
   </div>
@@ -615,38 +501,25 @@ button.action:active {
 
 <!-- GARDEN -->
 
-<section
-  id="gardenPage"
-  class="page">
+<section id="gardenPage" class="page">
 
-  <div class="section-title">
-    Garden
-  </div>
-
+  <div class="section-title">Garden</div>
 
   <div class="grid">
 
     <div class="card">
 
-      <div class="card-title">
-        Automower
-      </div>
+      <div class="card-title">Automower</div>
 
-      <div
-        id="gardenBattery"
-        class="card-value">
+      <div id="gardenBattery" class="card-value">
         —
       </div>
 
-      <div
-        id="gardenState"
-        class="card-small">
+      <div id="gardenState" class="card-small">
         Loading…
       </div>
 
-      <div
-        id="gardenConnection"
-        class="card-small">
+      <div id="gardenConnection" class="card-small">
         Connecting…
       </div>
 
@@ -655,9 +528,7 @@ button.action:active {
 
     <div class="card">
 
-      <div class="card-title">
-        Ken controls
-      </div>
+      <div class="card-title">Ken controls</div>
 
       <div class="notice">
         Husqvarna Automower 430X
@@ -665,30 +536,24 @@ button.action:active {
 
       <div class="button-row">
 
-        <button
-          class="action"
-          onclick="mowerAction('START_MOWING')">
+        <button class="action"
+                onclick="mowerAction('START_MOWING')">
           Start
         </button>
 
-        <button
-          class="action secondary"
-          onclick="mowerAction('PAUSE')">
+        <button class="action secondary"
+                onclick="mowerAction('PAUSE')">
           Pause
         </button>
 
-        <button
-          class="action secondary"
-          onclick="mowerAction('PARK_UNTIL_NEXT_SCHEDULE')">
+        <button class="action secondary"
+                onclick="mowerAction('PARK_UNTIL_NEXT_SCHEDULE')">
           Park
         </button>
 
       </div>
 
-      <div
-        id="actionResult"
-        class="result">
-      </div>
+      <div id="actionResult" class="result"></div>
 
     </div>
 
@@ -699,28 +564,69 @@ button.action:active {
 
 <!-- CAMERAS -->
 
-<section
-  id="cameraPage"
-  class="page">
+<section id="cameraPage" class="page">
 
-  <div class="section-title">
-    Cameras
-  </div>
-
+  <div class="section-title">Cameras</div>
 
   <div class="camera-toolbar">
 
-    <div
-      id="cameraCount"
-      class="camera-count">
+    <div id="cameraCount" class="camera-count">
       Loading cameras…
     </div>
 
-    <button
-      class="action secondary"
-      onclick="loadCameras()">
+    <button class="action secondary"
+            onclick="loadCameras()">
       Refresh
     </button>
+
+  </div>
+
+
+  <!-- ONE LIVE STREAM ONLY -->
+
+  <div id="livePanel" class="live-panel">
+
+    <div class="live-header">
+
+      <div id="liveName" class="live-name">
+        Select a camera
+      </div>
+
+      <div id="liveStatus" class="live-status">
+        —
+      </div>
+
+    </div>
+
+    <div class="live-video-wrap">
+
+      <video
+        id="liveVideo"
+        class="live-video"
+        playsinline
+        controls
+        muted>
+      </video>
+
+      <div
+        id="livePlaceholder"
+        class="live-placeholder">
+        Tap a camera below to view it live.
+      </div>
+
+    </div>
+
+    <div class="live-footer">
+
+      <span style="color:#aeb8bf;font-size:12px">
+        One live camera at a time
+      </span>
+
+      <button onclick="fullscreenLive()">
+        Full screen
+      </button>
+
+    </div>
 
   </div>
 
@@ -728,9 +634,7 @@ button.action:active {
   <div
     id="cameraLoading"
     class="loading">
-
     Connecting to your Imou cameras…
-
   </div>
 
 
@@ -756,178 +660,115 @@ const MOWER_ID =
   "24846e9d-9925-4dea-a24a-a97c2da45b18";
 
 
-function showPage(
-  pageId,
-  button
-) {
+let cameras = [];
+
+let selectedCameraIndex = -1;
+
+
+function showPage(pageId, button) {
 
   document
     .querySelectorAll(".page")
     .forEach(page => {
-
       page.classList.remove("active");
-
     });
-
 
   document
     .getElementById(pageId)
     .classList.add("active");
 
-
   document
     .querySelectorAll(".tab")
     .forEach(tab => {
-
       tab.classList.remove("active");
-
     });
-
 
   button.classList.add("active");
 
-
-  if (
-    pageId === "cameraPage"
-  ) {
-
+  if (pageId === "cameraPage") {
     loadCameras();
-
   }
-
 }
 
+
+/* ---------------- MOWER ---------------- */
 
 async function loadMower() {
 
   try {
 
     const r =
-      await fetch(
-        "/api/mowers"
-      );
-
+      await fetch("/api/mowers");
 
     if (!r.ok) {
-
-      throw new Error(
-        await r.text()
-      );
-
+      throw new Error(await r.text());
     }
-
 
     const j =
       await r.json();
 
-
     const a =
       j?.data?.[0]?.attributes || {};
 
-
     const battery =
-      a?.battery?.batteryPercent ??
-      "—";
-
+      a?.battery?.batteryPercent ?? "—";
 
     const state =
-      a?.mower?.activity ??
-      "Unknown";
-
+      a?.mower?.activity ?? "Unknown";
 
     const connected =
       a?.metadata?.connected === true;
 
-
-    document
-      .getElementById(
-        "mowerBattery"
-      )
+    document.getElementById("mowerBattery")
       .textContent =
         battery === "—"
           ? "—"
           : battery + "%";
 
-
-    document
-      .getElementById(
-        "mowerState"
-      )
+    document.getElementById("mowerState")
       .textContent =
         String(state);
 
-
-    document
-      .getElementById(
-        "gardenBattery"
-      )
+    document.getElementById("gardenBattery")
       .textContent =
         battery === "—"
           ? "—"
           : battery + "% battery";
 
-
-    document
-      .getElementById(
-        "gardenState"
-      )
+    document.getElementById("gardenState")
       .textContent =
         String(state);
 
-
-    document
-      .getElementById(
-        "gardenConnection"
-      )
+    document.getElementById("gardenConnection")
       .textContent =
         connected
           ? "Connected"
           : "Cloud connection unavailable";
 
-
   } catch (e) {
 
-    document
-      .getElementById(
-        "mowerState"
-      )
+    document.getElementById("mowerState")
       .textContent =
         "Unavailable";
 
-
-    document
-      .getElementById(
-        "gardenState"
-      )
+    document.getElementById("gardenState")
       .textContent =
         "Unable to load Ken";
 
-
-    document
-      .getElementById(
-        "gardenConnection"
-      )
+    document.getElementById("gardenConnection")
       .textContent =
         "Unavailable";
-
   }
-
 }
 
 
-async function mowerAction(
-  action
-) {
+async function mowerAction(action) {
 
   const box =
-    document.getElementById(
-      "actionResult"
-    );
-
+    document.getElementById("actionResult");
 
   box.textContent =
     "Sending command…";
-
 
   try {
 
@@ -951,272 +792,34 @@ async function mowerAction(
         }
       );
 
-
     const j =
       await r.json();
 
-
-    if (
-      !r.ok ||
-      j.error
-    ) {
-
+    if (!r.ok || j.error) {
       throw new Error(
         j.error ||
         "Command failed"
       );
-
     }
-
 
     box.textContent =
       "Command sent.";
-
 
     setTimeout(
       loadMower,
       3000
     );
 
-
   } catch (e) {
 
     box.textContent =
       "Error: " +
       e.message;
-
   }
-
 }
 
 
-function createCameraCard(
-  camera,
-  index
-) {
-
-  const card =
-    document.createElement(
-      "div"
-    );
-
-  card.className =
-    "camera-card";
-
-
-  const name =
-    camera.name &&
-    !/^\d+$/.test(camera.name)
-      ? camera.name
-      : "Camera " + (index + 1);
-
-
-  const header =
-    document.createElement(
-      "div"
-    );
-
-  header.className =
-    "camera-header";
-
-
-  const title =
-    document.createElement(
-      "div"
-    );
-
-  title.className =
-    "camera-name";
-
-  title.textContent =
-    name;
-
-
-  const status =
-    document.createElement(
-      "div"
-    );
-
-  status.className =
-    "camera-status";
-
-  status.textContent =
-    camera.hls
-      ? "LIVE"
-      : "Unavailable";
-
-
-  header.appendChild(
-    title
-  );
-
-  header.appendChild(
-    status
-  );
-
-
-  card.appendChild(
-    header
-  );
-
-
-  if (
-    camera.hls
-  ) {
-
-    const video =
-      document.createElement(
-        "video"
-      );
-
-
-    video.className =
-      "camera-video";
-
-
-    video.setAttribute(
-      "playsinline",
-      ""
-    );
-
-
-    video.setAttribute(
-      "controls",
-      ""
-    );
-
-
-    video.setAttribute(
-      "muted",
-      ""
-    );
-
-
-    video.setAttribute(
-      "autoplay",
-      ""
-    );
-
-
-    video.setAttribute(
-      "preload",
-      "metadata"
-    );
-
-
-    video.src =
-      camera.hls;
-
-
-    video.addEventListener(
-      "error",
-      () => {
-
-        status.textContent =
-          "Stream unavailable";
-
-      }
-    );
-
-
-    card.appendChild(
-      video
-    );
-
-
-    const footer =
-      document.createElement(
-        "div"
-      );
-
-    footer.className =
-      "camera-footer";
-
-
-    const label =
-      document.createElement(
-        "span"
-      );
-
-    label.style.color =
-      "#aeb8bf";
-
-    label.style.fontSize =
-      "12px";
-
-    label.textContent =
-      "Imou live";
-
-
-    const fullscreen =
-      document.createElement(
-        "button"
-      );
-
-    fullscreen.textContent =
-      "Full screen";
-
-
-    fullscreen.onclick =
-      () => {
-
-        if (
-          video.requestFullscreen
-        ) {
-
-          video.requestFullscreen();
-
-        } else if (
-          video.webkitEnterFullscreen
-        ) {
-
-          video.webkitEnterFullscreen();
-
-        }
-
-      };
-
-
-    footer.appendChild(
-      label
-    );
-
-    footer.appendChild(
-      fullscreen
-    );
-
-
-    card.appendChild(
-      footer
-    );
-
-
-  } else {
-
-    const error =
-      document.createElement(
-        "div"
-      );
-
-    error.className =
-      "camera-error";
-
-
-    error.textContent =
-      camera.error ||
-      "Live stream unavailable";
-
-
-    card.appendChild(
-      error
-    );
-
-  }
-
-
-  return card;
-
-}
+/* ---------------- CAMERAS ---------------- */
 
 
 async function loadCameras() {
@@ -1226,26 +829,21 @@ async function loadCameras() {
       "cameraLoading"
     );
 
-
   const grid =
     document.getElementById(
       "cameraGrid"
     );
-
 
   const count =
     document.getElementById(
       "cameraCount"
     );
 
-
   loading.style.display =
     "block";
 
-
   grid.innerHTML =
     "";
-
 
   count.textContent =
     "Connecting…";
@@ -1258,27 +856,20 @@ async function loadCameras() {
         "/api/imou/streams"
       );
 
-
     if (!response.ok) {
-
       throw new Error(
         await response.text()
       );
-
     }
-
 
     const data =
       await response.json();
 
-
-    const cameras =
+    cameras =
       data.cameras || [];
-
 
     loading.style.display =
       "none";
-
 
     count.textContent =
       cameras.length +
@@ -1289,9 +880,7 @@ async function loadCameras() {
       );
 
 
-    if (
-      cameras.length === 0
-    ) {
+    if (cameras.length === 0) {
 
       grid.innerHTML = `
         <div class="empty">
@@ -1300,7 +889,6 @@ async function loadCameras() {
       `;
 
       return;
-
     }
 
 
@@ -1308,7 +896,7 @@ async function loadCameras() {
       (camera, index) => {
 
         grid.appendChild(
-          createCameraCard(
+          createCameraTile(
             camera,
             index
           )
@@ -1318,15 +906,36 @@ async function loadCameras() {
     );
 
 
+    /*
+      Automatically select the first camera.
+      Only ONE video stream is started.
+    */
+
+    if (
+      selectedCameraIndex < 0 &&
+      cameras.length > 0
+    ) {
+
+      selectCamera(0);
+
+    } else if (
+      selectedCameraIndex >= 0 &&
+      selectedCameraIndex < cameras.length
+    ) {
+
+      selectCamera(
+        selectedCameraIndex
+      );
+
+    }
+
   } catch (error) {
 
     loading.style.display =
       "none";
 
-
     count.textContent =
       "Camera connection error";
-
 
     grid.innerHTML = `
       <div class="empty">
@@ -1337,15 +946,435 @@ async function loadCameras() {
         ${escapeHtml(error.message)}
       </div>
     `;
+  }
+}
+
+
+function createCameraTile(
+  camera,
+  index
+) {
+
+  const tile =
+    document.createElement(
+      "div"
+    );
+
+  tile.className =
+    "camera-tile";
+
+
+  if (
+    index === selectedCameraIndex
+  ) {
+
+    tile.classList.add(
+      "selected"
+    );
+
+  }
+
+
+  tile.onclick =
+    () => selectCamera(index);
+
+
+  let name =
+    camera.name;
+
+
+  /*
+    Some Imou cameras return the serial
+    as the channel name. Give those a
+    friendly camera number instead.
+  */
+
+  if (
+    !name ||
+    /^\d+$/.test(name)
+  ) {
+
+    name =
+      "Camera " +
+      (index + 1);
+
+  }
+
+
+  /*
+    Make the dual-lens camera's channels
+    more understandable.
+  */
+
+  if (
+    name === "PT Lens"
+  ) {
+
+    name = "PT Camera";
+
+  }
+
+
+  if (
+    name === "Fixed Lens"
+  ) {
+
+    name = "Fixed Camera";
+
+  }
+
+
+  if (camera.coverUrl) {
+
+    const image =
+      document.createElement(
+        "img"
+      );
+
+    image.className =
+      "camera-thumb";
+
+    image.src =
+      camera.coverUrl;
+
+    image.alt =
+      name;
+
+    image.onerror =
+      () => {
+
+        image.style.display =
+          "none";
+
+        const fallback =
+          document.createElement(
+            "div"
+          );
+
+        fallback.className =
+          "camera-no-thumb";
+
+        fallback.textContent =
+          "Camera preview";
+
+        tile.insertBefore(
+          fallback,
+          tile.firstChild
+        );
+
+      };
+
+    tile.appendChild(
+      image
+    );
+
+  } else {
+
+    const fallback =
+      document.createElement(
+        "div"
+      );
+
+    fallback.className =
+      "camera-no-thumb";
+
+    fallback.textContent =
+      "Camera preview";
+
+    tile.appendChild(
+      fallback
+    );
+
+  }
+
+
+  const info =
+    document.createElement(
+      "div"
+    );
+
+  info.className =
+    "camera-tile-info";
+
+
+  const title =
+    document.createElement(
+      "div"
+    );
+
+  title.className =
+    "camera-tile-name";
+
+  title.textContent =
+    name;
+
+
+  const status =
+    document.createElement(
+      "div"
+    );
+
+  status.className =
+    "camera-tile-status";
+
+  status.textContent =
+    camera.hls
+      ? "● Live available"
+      : "Stream unavailable";
+
+
+  info.appendChild(
+    title
+  );
+
+  info.appendChild(
+    status
+  );
+
+  tile.appendChild(
+    info
+  );
+
+
+  return tile;
+}
+
+
+/*
+  Select a camera.
+
+  IMPORTANT:
+  We stop the existing stream before
+  starting the new one.
+*/
+
+function selectCamera(index) {
+
+  if (
+    !cameras[index]
+  ) {
+    return;
+  }
+
+
+  selectedCameraIndex =
+    index;
+
+
+  const camera =
+    cameras[index];
+
+
+  const video =
+    document.getElementById(
+      "liveVideo"
+    );
+
+  const placeholder =
+    document.getElementById(
+      "livePlaceholder"
+    );
+
+  const name =
+    document.getElementById(
+      "liveName"
+    );
+
+  const status =
+    document.getElementById(
+      "liveStatus"
+    );
+
+
+  /*
+    Stop the previous stream completely.
+  */
+
+  video.pause();
+
+  video.removeAttribute(
+    "src"
+  );
+
+  video.load();
+
+
+  name.textContent =
+    getFriendlyCameraName(
+      camera,
+      index
+    );
+
+
+  if (
+    !camera.hls
+  ) {
+
+    status.textContent =
+      "Unavailable";
+
+    placeholder.style.display =
+      "flex";
+
+    placeholder.textContent =
+      camera.error ||
+      "Live stream unavailable";
+
+    video.style.display =
+      "none";
+
+    return;
+  }
+
+
+  status.textContent =
+    "CONNECTING…";
+
+
+  placeholder.style.display =
+    "flex";
+
+  placeholder.textContent =
+    "Starting live stream…";
+
+
+  video.style.display =
+    "block";
+
+
+  video.src =
+    camera.hls;
+
+
+  video.onloadedmetadata =
+    () => {
+
+      placeholder.style.display =
+        "none";
+
+      status.textContent =
+        "LIVE";
+
+      video.play()
+        .catch(() => {
+          /*
+            iPad may require the user to
+            press the play button.
+          */
+        });
+
+    };
+
+
+  video.onerror =
+    () => {
+
+      placeholder.style.display =
+        "flex";
+
+      placeholder.textContent =
+        "Unable to play this live stream.";
+
+      status.textContent =
+        "STREAM ERROR";
+
+    };
+
+
+  /*
+    Refresh the tile highlighting.
+  */
+
+  document
+    .querySelectorAll(
+      ".camera-tile"
+    )
+    .forEach(
+      (tile, tileIndex) => {
+
+        tile.classList.toggle(
+          "selected",
+          tileIndex === index
+        );
+
+      }
+    );
+
+}
+
+
+function getFriendlyCameraName(
+  camera,
+  index
+) {
+
+  let name =
+    camera?.name;
+
+
+  if (
+    !name ||
+    /^\d+$/.test(name)
+  ) {
+
+    return "Camera " +
+      (index + 1);
+
+  }
+
+
+  if (
+    name === "PT Lens"
+  ) {
+
+    return "PT Camera";
+
+  }
+
+
+  if (
+    name === "Fixed Lens"
+  ) {
+
+    return "Fixed Camera";
+
+  }
+
+
+  return name;
+}
+
+
+/*
+  Full screen selected camera.
+*/
+
+function fullscreenLive() {
+
+  const video =
+    document.getElementById(
+      "liveVideo"
+    );
+
+
+  if (
+    video.requestFullscreen
+  ) {
+
+    video.requestFullscreen();
+
+  } else if (
+    video.webkitEnterFullscreen
+  ) {
+
+    video.webkitEnterFullscreen();
 
   }
 
 }
 
 
-function escapeHtml(
-  value
-) {
+function escapeHtml(value) {
 
   return String(value)
     .replace(
@@ -1368,54 +1397,19 @@ function escapeHtml(
       /'/g,
       "&#039;"
     );
-
 }
 
 
-/*
-  Load the mower when the app opens.
-*/
+/* Initial mower load */
 
 loadMower();
 
 
-/*
-  Refresh mower information
-  every 30 seconds.
-*/
+/* Refresh mower every 30 seconds */
 
 setInterval(
   loadMower,
   30000
-);
-
-
-/*
-  Refresh camera stream addresses
-  every 4 minutes while the camera
-  page is being viewed.
-*/
-
-setInterval(
-  () => {
-
-    const cameraPage =
-      document.getElementById(
-        "cameraPage"
-      );
-
-    if (
-      cameraPage.classList.contains(
-        "active"
-      )
-    ) {
-
-      loadCameras();
-
-    }
-
-  },
-  240000
 );
 
 </script>
