@@ -561,23 +561,25 @@ async function loadCameras(){
 
       if(camera.hls){
 
-        const live=
-          document.createElement("a");
+  const live = document.createElement("video");
 
-        live.className="live-button";
+  live.style.width = "100%";
+  live.style.borderRadius = "10px";
+  live.style.background = "#000";
 
-        live.textContent=
-          "▶  Watch live";
+  live.src =
+    "/api/imou/stream?deviceId=" +
+    encodeURIComponent(camera.deviceId) +
+    "&channelId=" +
+    encodeURIComponent(camera.channelId);
 
-        live.href="/api/imou/stream?deviceId=" + encodeURIComponent(camera.deviceId) + "&channelId=" + encodeURIComponent(camera.channelId);
+  live.autoplay = true;
+  live.muted = true;
+  live.playsInline = true;
+  live.controls = true;
 
-        live.target="_blank";
-
-        live.rel="noopener";
-
-        info.appendChild(live);
-
-      }
+  info.appendChild(live);
+}
 
 
       card.appendChild(info);
