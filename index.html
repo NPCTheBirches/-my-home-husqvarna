@@ -2,282 +2,1421 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
 <title>My Home</title>
 
 <style>
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Arial,
+    sans-serif;
   background: #f3f5f7;
-  color: #1f2937;
+  color: #17202a;
 }
 
-header {
-  background: #17212b;
+.header {
+  background: #ffffff;
+  padding: 22px 22px 16px;
+  border-bottom: 1px solid #e2e6e9;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-title {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.header-subtitle {
+  color: #6b747c;
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e6e9;
+  overflow-x: auto;
+  position: sticky;
+  top: 78px;
+  z-index: 9;
+}
+
+.tab {
+  border: none;
+  background: #eef1f3;
+  padding: 10px 18px;
+  border-radius: 22px;
+  font-size: 15px;
+  white-space: nowrap;
+  color: #34404a;
+}
+
+.tab.active {
+  background: #17202a;
   color: white;
-  padding: 24px;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 30px;
-}
-
-header p {
-  margin: 5px 0 0;
-  opacity: .7;
 }
 
 .container {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
-  max-width: 900px;
-  margin: auto;
+}
+
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
 }
 
 .card {
   background: white;
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 20px;
-  margin-bottom: 18px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.08);
+  box-shadow:
+    0 2px 8px rgba(0,0,0,0.05);
 }
 
-.card h2 {
-  margin-top: 0;
+.card-title {
+  font-size: 14px;
+  color: #6b747c;
+  margin-bottom: 10px;
 }
 
-.status {
-  font-size: 22px;
-  font-weight: 600;
-}
-
-.green {
-  color: #159447;
-}
-
-.battery {
-  font-size: 34px;
+.card-value {
+  font-size: 30px;
   font-weight: 700;
 }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  margin: 12px 0;
+.card-small {
+  font-size: 13px;
+  color: #707980;
+  margin-top: 6px;
 }
 
-button {
-  border: 0;
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin: 5px;
-  font-size: 16px;
-  background: #17212b;
-  color: white;
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin:
+    8px 0 16px;
 }
 
-button:active {
-  opacity: .7;
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: #53606a;
 }
 
-.small {
-  color: #6b7280;
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #2da44e;
+}
+
+.dot.offline {
+  background: #c63c3c;
+}
+
+.notice {
+  background: #f5f7f8;
+  padding: 14px;
+  border-radius: 12px;
+  color: #65717a;
   font-size: 14px;
 }
 
-.error {
-  color: #c62828;
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+button.action {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  background: #17202a;
+  color: white;
+}
+
+button.action.secondary {
+  background: #e8ecef;
+  color: #17202a;
+}
+
+button.action.danger {
+  background: #b93434;
+  color: white;
+}
+
+button.action:active {
+  transform: scale(0.98);
+}
+
+.result {
+  margin-top: 14px;
+  font-size: 14px;
+  color: #68737b;
+}
+
+/* CAMERA PAGE */
+
+.camera-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.camera-count {
+  color: #68737b;
+  font-size: 14px;
+}
+
+.camera-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.camera-card {
+  background: #111820;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow:
+    0 4px 15px rgba(0,0,0,0.12);
+}
+
+.camera-header {
+  padding: 14px 16px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.camera-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.camera-status {
+  font-size: 12px;
+  color: #9ee2b1;
+}
+
+.camera-video {
+  width: 100%;
+  display: block;
+  background: #000;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.camera-footer {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.camera-footer button {
+  border: none;
+  background: #27313a;
+  color: white;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+.camera-error {
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c8d0d6;
+  background: #151d24;
+  text-align: center;
+  padding: 20px;
 }
 
 .loading {
-  color: #777;
+  padding: 40px;
+  text-align: center;
+  color: #6d7780;
 }
+
+.empty {
+  padding: 40px 20px;
+  text-align: center;
+  background: white;
+  border-radius: 18px;
+  color: #69747c;
+}
+
+.energy-bar {
+  height: 10px;
+  background: #e7eaed;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+.energy-bar-inner {
+  height: 100%;
+  width: 62%;
+  background: #17202a;
+  border-radius: 10px;
+}
+
+.footer {
+  text-align: center;
+  padding: 30px;
+  color: #8a949b;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+
+  .container {
+    padding: 14px;
+  }
+
+  .header {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .card-value {
+    font-size: 27px;
+  }
+
+  .camera-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>My Home</h1>
-  <p>Your home at a glance</p>
+<header class="header">
+
+  <div class="header-title">
+    My Home
+  </div>
+
+  <div class="header-subtitle">
+    Home control & monitoring
+  </div>
+
 </header>
 
-<div class="container">
 
-  <div class="card">
-    <h2>🌿 Garden</h2>
+<nav class="tabs">
 
-    <h3>Ken — Automower 430X</h3>
+  <button
+    class="tab active"
+    onclick="showPage('homePage', this)">
+    Home
+  </button>
 
-    <div id="mowerStatus" class="status loading">
-      Connecting to mower...
-    </div>
+  <button
+    class="tab"
+    onclick="showPage('energyPage', this)">
+    Energy
+  </button>
 
-    <div class="row">
-      <span>Battery</span>
-      <span id="battery" class="battery">--%</span>
-    </div>
+  <button
+    class="tab"
+    onclick="showPage('gardenPage', this)">
+    Garden
+  </button>
 
-    <div class="row">
-      <span>Connection</span>
-      <span id="connection">--</span>
-    </div>
+  <button
+    class="tab"
+    onclick="showPage('cameraPage', this)">
+    Cameras
+  </button>
 
-    <div class="row">
-      <span>Cutting height</span>
-      <span id="cuttingHeight">--</span>
-    </div>
+</nav>
 
-    <div>
-      <button onclick="mowerAction('START_MOWING')">
-        ▶ Start
-      </button>
 
-      <button onclick="mowerAction('PAUSE')">
-        ⏸ Pause
-      </button>
+<main class="container">
 
-      <button onclick="mowerAction('PARK_UNTIL_NEXT_SCHEDULE')">
-        🏠 Park
-      </button>
-    </div>
 
-    <p id="actionResult" class="small"></p>
+<!-- HOME -->
 
-    <p id="updated" class="small"></p>
+<section
+  id="homePage"
+  class="page active">
+
+  <div class="section-title">
+    Home
   </div>
 
-  <div class="card">
-    <h2>🏠 Home</h2>
+  <div class="grid">
 
-    <div class="row">
-      <span>Temperature</span>
-      <span>--°C</span>
+    <div class="card">
+
+      <div class="card-title">
+        House temperature
+      </div>
+
+      <div
+        id="homeTemperature"
+        class="card-value">
+        19.9°C
+      </div>
+
+      <div class="card-small">
+        Hive thermostat
+      </div>
+
     </div>
 
-    <div class="row">
-      <span>Heating</span>
-      <span>Not connected yet</span>
+
+    <div class="card">
+
+      <div class="card-title">
+        Electricity
+      </div>
+
+      <div
+        id="homeElectricity"
+        class="card-value">
+        23.45 kWh
+      </div>
+
+      <div class="card-small">
+        Latest So Energy day
+      </div>
+
     </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        Gas
+      </div>
+
+      <div
+        id="homeGas"
+        class="card-value">
+        29.31 kWh
+      </div>
+
+      <div class="card-small">
+        Latest So Energy day
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        Energy cost
+      </div>
+
+      <div
+        id="homeEnergyCost"
+        class="card-value">
+        £6.71
+      </div>
+
+      <div class="card-small">
+        Latest So Energy day
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        Ken
+      </div>
+
+      <div
+        id="mowerBattery"
+        class="card-value">
+        —
+      </div>
+
+      <div
+        id="mowerState"
+        class="card-small">
+        Loading…
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        Home status
+      </div>
+
+      <div class="status">
+        <span class="dot"></span>
+        <span>Systems connected</span>
+      </div>
+
+      <div class="card-small">
+        Hive · Energy · Garden · Cameras
+      </div>
+
+    </div>
+
   </div>
+
+</section>
+
+
+<!-- ENERGY -->
+
+<section
+  id="energyPage"
+  class="page">
+
+  <div class="section-title">
+    Energy
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="card-title">
+        Electricity
+      </div>
+
+      <div class="card-value">
+        23.45 kWh
+      </div>
+
+      <div class="energy-bar">
+        <div class="energy-bar-inner"></div>
+      </div>
+
+      <div class="card-small">
+        SO EV Peak + Off-Peak
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        Gas
+      </div>
+
+      <div class="card-value">
+        29.31 kWh
+      </div>
+
+      <div class="card-small">
+        Latest available So Energy reading
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        Total usage
+      </div>
+
+      <div class="card-value">
+        52.76 kWh
+      </div>
+
+      <div class="card-small">
+        Latest So Energy day
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        Total cost
+      </div>
+
+      <div class="card-value">
+        £6.71
+      </div>
+
+      <div class="card-small">
+        Latest So Energy day
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div style="height:18px"></div>
 
   <div class="card">
-    <h2>⚡ Energy</h2>
 
-    <div class="row">
-      <span>Electricity</span>
-      <span>Not connected yet</span>
+    <div class="card-title">
+      Energy information
     </div>
 
-    <div class="row">
-      <span>Gas</span>
-      <span>Not connected yet</span>
+    <div class="notice">
+      Your So Energy readings currently shown here are the
+      latest values we have recorded. Live So Energy account
+      integration can be added separately.
     </div>
+
   </div>
 
-  <div class="card">
-    <h2>🚙 EV Charger</h2>
-    <p>Not connected yet</p>
+</section>
+
+
+<!-- GARDEN -->
+
+<section
+  id="gardenPage"
+  class="page">
+
+  <div class="section-title">
+    Garden
   </div>
 
-  <div class="card">
-    <h2>📷 Cameras</h2>
-    <p>Imou cameras will appear here.</p>
+
+  <div class="grid">
+
+    <div class="card">
+
+      <div class="card-title">
+        Automower
+      </div>
+
+      <div
+        id="gardenBattery"
+        class="card-value">
+        —
+      </div>
+
+      <div
+        id="gardenState"
+        class="card-small">
+        Loading…
+      </div>
+
+      <div
+        id="gardenConnection"
+        class="card-small">
+        Connecting…
+      </div>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="card-title">
+        Ken controls
+      </div>
+
+      <div class="notice">
+        Husqvarna Automower 430X
+      </div>
+
+      <div class="button-row">
+
+        <button
+          class="action"
+          onclick="mowerAction('START_MOWING')">
+          Start
+        </button>
+
+        <button
+          class="action secondary"
+          onclick="mowerAction('PAUSE')">
+          Pause
+        </button>
+
+        <button
+          class="action secondary"
+          onclick="mowerAction('PARK_UNTIL_NEXT_SCHEDULE')">
+          Park
+        </button>
+
+      </div>
+
+      <div
+        id="actionResult"
+        class="result">
+      </div>
+
+    </div>
+
   </div>
 
+</section>
+
+
+<!-- CAMERAS -->
+
+<section
+  id="cameraPage"
+  class="page">
+
+  <div class="section-title">
+    Cameras
+  </div>
+
+
+  <div class="camera-toolbar">
+
+    <div
+      id="cameraCount"
+      class="camera-count">
+      Loading cameras…
+    </div>
+
+    <button
+      class="action secondary"
+      onclick="loadCameras()">
+      Refresh
+    </button>
+
+  </div>
+
+
+  <div
+    id="cameraLoading"
+    class="loading">
+
+    Connecting to your Imou cameras…
+
+  </div>
+
+
+  <div
+    id="cameraGrid"
+    class="camera-grid">
+  </div>
+
+</section>
+
+
+</main>
+
+
+<div class="footer">
+  My Home
 </div>
+
 
 <script>
 
-const API = "https://my-home-husqvarna.onrender.com";
+const MOWER_ID =
+  "24846e9d-9925-4dea-a24a-a97c2da45b18";
+
+
+function showPage(
+  pageId,
+  button
+) {
+
+  document
+    .querySelectorAll(".page")
+    .forEach(page => {
+
+      page.classList.remove("active");
+
+    });
+
+
+  document
+    .getElementById(pageId)
+    .classList.add("active");
+
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(tab => {
+
+      tab.classList.remove("active");
+
+    });
+
+
+  button.classList.add("active");
+
+
+  if (
+    pageId === "cameraPage"
+  ) {
+
+    loadCameras();
+
+  }
+
+}
+
 
 async function loadMower() {
 
   try {
 
-    const response = await fetch(API + "/api/mowers");
+    const r =
+      await fetch(
+        "/api/mowers"
+      );
 
-    const result = await response.json();
 
-    if (!result.data || !result.data.length) {
-      throw new Error("No mower found");
+    if (!r.ok) {
+
+      throw new Error(
+        await r.text()
+      );
+
     }
 
-    const mower = result.data[0];
-    const a = mower.attributes;
 
-    document.getElementById("mowerStatus").textContent =
-      a.mower.activity.replaceAll("_", " ");
+    const j =
+      await r.json();
 
-    document.getElementById("mowerStatus").className =
-      "status green";
 
-    document.getElementById("battery").textContent =
-      a.battery.batteryPercent + "%";
+    const a =
+      j?.data?.[0]?.attributes || {};
 
-    document.getElementById("connection").textContent =
-      a.metadata.connected ? "Connected" : "Offline";
 
-    document.getElementById("cuttingHeight").textContent =
-      a.settings.cuttingHeight;
+    const battery =
+      a?.battery?.batteryPercent ??
+      "—";
 
-    document.getElementById("updated").textContent =
-      "Live data received";
 
-  } catch (error) {
+    const state =
+      a?.mower?.activity ??
+      "Unknown";
 
-    document.getElementById("mowerStatus").textContent =
-      "Unable to connect";
 
-    document.getElementById("mowerStatus").className =
-      "status error";
+    const connected =
+      a?.metadata?.connected === true;
 
-    console.error(error);
+
+    document
+      .getElementById(
+        "mowerBattery"
+      )
+      .textContent =
+        battery === "—"
+          ? "—"
+          : battery + "%";
+
+
+    document
+      .getElementById(
+        "mowerState"
+      )
+      .textContent =
+        String(state);
+
+
+    document
+      .getElementById(
+        "gardenBattery"
+      )
+      .textContent =
+        battery === "—"
+          ? "—"
+          : battery + "% battery";
+
+
+    document
+      .getElementById(
+        "gardenState"
+      )
+      .textContent =
+        String(state);
+
+
+    document
+      .getElementById(
+        "gardenConnection"
+      )
+      .textContent =
+        connected
+          ? "Connected"
+          : "Cloud connection unavailable";
+
+
+  } catch (e) {
+
+    document
+      .getElementById(
+        "mowerState"
+      )
+      .textContent =
+        "Unavailable";
+
+
+    document
+      .getElementById(
+        "gardenState"
+      )
+      .textContent =
+        "Unable to load Ken";
+
+
+    document
+      .getElementById(
+        "gardenConnection"
+      )
+      .textContent =
+        "Unavailable";
+
   }
+
 }
 
-async function mowerAction(action) {
 
-  const resultBox = document.getElementById("actionResult");
+async function mowerAction(
+  action
+) {
 
-  resultBox.textContent = "Sending command...";
+  const box =
+    document.getElementById(
+      "actionResult"
+    );
+
+
+  box.textContent =
+    "Sending command…";
+
 
   try {
 
-    const response = await fetch(
-      API + "/api/mowers/24846e9d-9925-4dea-a24a-a97c2da45b18/actions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          action: action
-        })
+    const r =
+      await fetch(
+        "/api/mowers/" +
+        MOWER_ID +
+        "/actions",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              action
+            })
+        }
+      );
+
+
+    const j =
+      await r.json();
+
+
+    if (
+      !r.ok ||
+      j.error
+    ) {
+
+      throw new Error(
+        j.error ||
+        "Command failed"
+      );
+
+    }
+
+
+    box.textContent =
+      "Command sent.";
+
+
+    setTimeout(
+      loadMower,
+      3000
+    );
+
+
+  } catch (e) {
+
+    box.textContent =
+      "Error: " +
+      e.message;
+
+  }
+
+}
+
+
+function createCameraCard(
+  camera,
+  index
+) {
+
+  const card =
+    document.createElement(
+      "div"
+    );
+
+  card.className =
+    "camera-card";
+
+
+  const name =
+    camera.name &&
+    !/^\d+$/.test(camera.name)
+      ? camera.name
+      : "Camera " + (index + 1);
+
+
+  const header =
+    document.createElement(
+      "div"
+    );
+
+  header.className =
+    "camera-header";
+
+
+  const title =
+    document.createElement(
+      "div"
+    );
+
+  title.className =
+    "camera-name";
+
+  title.textContent =
+    name;
+
+
+  const status =
+    document.createElement(
+      "div"
+    );
+
+  status.className =
+    "camera-status";
+
+  status.textContent =
+    camera.hls
+      ? "LIVE"
+      : "Unavailable";
+
+
+  header.appendChild(
+    title
+  );
+
+  header.appendChild(
+    status
+  );
+
+
+  card.appendChild(
+    header
+  );
+
+
+  if (
+    camera.hls
+  ) {
+
+    const video =
+      document.createElement(
+        "video"
+      );
+
+
+    video.className =
+      "camera-video";
+
+
+    video.setAttribute(
+      "playsinline",
+      ""
+    );
+
+
+    video.setAttribute(
+      "controls",
+      ""
+    );
+
+
+    video.setAttribute(
+      "muted",
+      ""
+    );
+
+
+    video.setAttribute(
+      "autoplay",
+      ""
+    );
+
+
+    video.setAttribute(
+      "preload",
+      "metadata"
+    );
+
+
+    video.src =
+      camera.hls;
+
+
+    video.addEventListener(
+      "error",
+      () => {
+
+        status.textContent =
+          "Stream unavailable";
+
       }
     );
 
-    const result = await response.json();
 
-    if (result.error) {
-      resultBox.textContent = "Error: " + result.error;
-    } else {
-      resultBox.textContent = "Command sent successfully.";
-      setTimeout(loadMower, 3000);
+    card.appendChild(
+      video
+    );
+
+
+    const footer =
+      document.createElement(
+        "div"
+      );
+
+    footer.className =
+      "camera-footer";
+
+
+    const label =
+      document.createElement(
+        "span"
+      );
+
+    label.style.color =
+      "#aeb8bf";
+
+    label.style.fontSize =
+      "12px";
+
+    label.textContent =
+      "Imou live";
+
+
+    const fullscreen =
+      document.createElement(
+        "button"
+      );
+
+    fullscreen.textContent =
+      "Full screen";
+
+
+    fullscreen.onclick =
+      () => {
+
+        if (
+          video.requestFullscreen
+        ) {
+
+          video.requestFullscreen();
+
+        } else if (
+          video.webkitEnterFullscreen
+        ) {
+
+          video.webkitEnterFullscreen();
+
+        }
+
+      };
+
+
+    footer.appendChild(
+      label
+    );
+
+    footer.appendChild(
+      fullscreen
+    );
+
+
+    card.appendChild(
+      footer
+    );
+
+
+  } else {
+
+    const error =
+      document.createElement(
+        "div"
+      );
+
+    error.className =
+      "camera-error";
+
+
+    error.textContent =
+      camera.error ||
+      "Live stream unavailable";
+
+
+    card.appendChild(
+      error
+    );
+
+  }
+
+
+  return card;
+
+}
+
+
+async function loadCameras() {
+
+  const loading =
+    document.getElementById(
+      "cameraLoading"
+    );
+
+
+  const grid =
+    document.getElementById(
+      "cameraGrid"
+    );
+
+
+  const count =
+    document.getElementById(
+      "cameraCount"
+    );
+
+
+  loading.style.display =
+    "block";
+
+
+  grid.innerHTML =
+    "";
+
+
+  count.textContent =
+    "Connecting…";
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/imou/streams"
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        await response.text()
+      );
+
     }
+
+
+    const data =
+      await response.json();
+
+
+    const cameras =
+      data.cameras || [];
+
+
+    loading.style.display =
+      "none";
+
+
+    count.textContent =
+      cameras.length +
+      (
+        cameras.length === 1
+          ? " camera"
+          : " cameras"
+      );
+
+
+    if (
+      cameras.length === 0
+    ) {
+
+      grid.innerHTML = `
+        <div class="empty">
+          No cameras were found.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    cameras.forEach(
+      (camera, index) => {
+
+        grid.appendChild(
+          createCameraCard(
+            camera,
+            index
+          )
+        );
+
+      }
+    );
+
 
   } catch (error) {
 
-    resultBox.textContent =
-      "Could not send command.";
+    loading.style.display =
+      "none";
+
+
+    count.textContent =
+      "Camera connection error";
+
+
+    grid.innerHTML = `
+      <div class="empty">
+        <strong>
+          Unable to load cameras
+        </strong>
+        <br><br>
+        ${escapeHtml(error.message)}
+      </div>
+    `;
 
   }
+
 }
+
+
+function escapeHtml(
+  value
+) {
+
+  return String(value)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/*
+  Load the mower when the app opens.
+*/
 
 loadMower();
 
-setInterval(loadMower, 30000);
+
+/*
+  Refresh mower information
+  every 30 seconds.
+*/
+
+setInterval(
+  loadMower,
+  30000
+);
+
+
+/*
+  Refresh camera stream addresses
+  every 4 minutes while the camera
+  page is being viewed.
+*/
+
+setInterval(
+  () => {
+
+    const cameraPage =
+      document.getElementById(
+        "cameraPage"
+      );
+
+    if (
+      cameraPage.classList.contains(
+        "active"
+      )
+    ) {
+
+      loadCameras();
+
+    }
+
+  },
+  240000
+);
 
 </script>
 
