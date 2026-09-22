@@ -2,370 +2,156 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>My Home</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#f3f5f7;
+  color:#17202a;
 }
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  background: #f3f5f7;
-  color: #17202a;
+.header{
+  background:#fff;
+  padding:22px;
+  border-bottom:1px solid #e2e6e9;
 }
-
-.header {
-  background: #fff;
-  padding: 22px 22px 16px;
-  border-bottom: 1px solid #e2e6e9;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+.header-title{font-size:28px;font-weight:700}
+.header-subtitle{color:#6b747c;margin-top:4px;font-size:14px}
+.tabs{
+  display:flex;
+  gap:8px;
+  padding:12px 16px;
+  background:#fff;
+  border-bottom:1px solid #e2e6e9;
+  overflow-x:auto;
 }
-
-.header-title {
-  font-size: 28px;
-  font-weight: 700;
+.tab{
+  border:0;
+  background:#eef1f3;
+  padding:10px 18px;
+  border-radius:22px;
+  font-size:15px;
+  white-space:nowrap;
 }
-
-.header-subtitle {
-  color: #6b747c;
-  margin-top: 4px;
-  font-size: 14px;
+.tab.active{background:#17202a;color:#fff}
+.container{max-width:1200px;margin:auto;padding:20px}
+.page{display:none}
+.page.active{display:block}
+.section-title{font-size:22px;font-weight:700;margin:8px 0 16px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:16px;
 }
-
-.tabs {
-  display: flex;
-  gap: 8px;
-  padding: 12px 16px;
-  background: #fff;
-  border-bottom: 1px solid #e2e6e9;
-  overflow-x: auto;
-  position: sticky;
-  top: 78px;
-  z-index: 9;
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
 }
-
-.tab {
-  border: 0;
-  background: #eef1f3;
-  padding: 10px 18px;
-  border-radius: 22px;
-  font-size: 15px;
-  white-space: nowrap;
-  color: #34404a;
+.card-title{font-size:14px;color:#6b747c;margin-bottom:10px}
+.card-value{font-size:30px;font-weight:700}
+.card-small{font-size:13px;color:#707980;margin-top:6px}
+.status{display:flex;align-items:center;gap:7px;font-size:13px}
+.dot{width:9px;height:9px;border-radius:50%;background:#2da44e}
+.button-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+button.action{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  font-size:15px;
+  font-weight:600;
+  background:#17202a;
+  color:#fff;
 }
+button.secondary{background:#e8ecef!important;color:#17202a!important}
+.result{margin-top:14px;font-size:14px;color:#68737b}
 
-.tab.active {
-  background: #17202a;
-  color: white;
+/* CAMERAS */
+.camera-toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
 }
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+.camera-count{color:#68737b;font-size:14px}
+.camera-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;
 }
-
-.page {
-  display: none;
+.camera-card{
+  background:#111820;
+  border-radius:18px;
+  overflow:hidden;
+  color:#fff;
+  box-shadow:0 3px 12px rgba(0,0,0,.12);
 }
-
-.page.active {
-  display: block;
+.camera-preview{
+  aspect-ratio:16/9;
+  background:#1c252d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#aeb8bf;
+  font-size:14px;
 }
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 16px;
+.camera-info{
+  padding:15px;
 }
-
-.card {
-  background: white;
-  border-radius: 18px;
-  padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+.camera-name{
+  font-size:16px;
+  font-weight:600;
 }
-
-.card-title {
-  font-size: 14px;
-  color: #6b747c;
-  margin-bottom: 10px;
+.camera-status{
+  color:#8fe3a4;
+  font-size:12px;
+  margin-top:5px;
 }
-
-.card-value {
-  font-size: 30px;
-  font-weight: 700;
+.live-button{
+  display:block;
+  width:100%;
+  margin-top:13px;
+  border:0;
+  border-radius:11px;
+  padding:12px;
+  background:#fff;
+  color:#17202a;
+  font-size:15px;
+  font-weight:600;
+  text-align:center;
+  text-decoration:none;
 }
-
-.card-small {
-  font-size: 13px;
-  color: #707980;
-  margin-top: 6px;
+.loading{
+  text-align:center;
+  padding:40px;
+  color:#6d7780;
 }
-
-.section-title {
-  font-size: 22px;
-  font-weight: 700;
-  margin: 8px 0 16px;
+.empty{
+  background:#fff;
+  padding:35px;
+  border-radius:18px;
+  text-align:center;
+  color:#69747c;
 }
-
-.status {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 13px;
-  color: #53606a;
+.footer{
+  text-align:center;
+  padding:30px;
+  color:#8a949b;
+  font-size:12px;
 }
-
-.dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #2da44e;
-}
-
-.notice {
-  background: #f5f7f8;
-  padding: 14px;
-  border-radius: 12px;
-  color: #65717a;
-  font-size: 14px;
-}
-
-.button-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
-}
-
-button.action {
-  border: 0;
-  border-radius: 12px;
-  padding: 12px 18px;
-  font-size: 15px;
-  font-weight: 600;
-  background: #17202a;
-  color: white;
-}
-
-button.action.secondary {
-  background: #e8ecef;
-  color: #17202a;
-}
-
-.result {
-  margin-top: 14px;
-  font-size: 14px;
-  color: #68737b;
-}
-
-
-/* CAMERA SECTION */
-
-.camera-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.camera-count {
-  color: #68737b;
-  font-size: 14px;
-}
-
-.live-panel {
-  background: #111820;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-bottom: 22px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.15);
-}
-
-.live-header {
-  padding: 15px 18px;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.live-name {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.live-status {
-  color: #8fe3a4;
-  font-size: 13px;
-}
-
-.live-video-wrap {
-  background: #000;
-  position: relative;
-}
-
-.live-video {
-  width: 100%;
-  display: block;
-  background: #000;
-  aspect-ratio: 16 / 9;
-  object-fit: contain;
-}
-
-.live-placeholder {
-  aspect-ratio: 16 / 9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #aeb8bf;
-  font-size: 15px;
-  text-align: center;
-  padding: 30px;
-}
-
-.live-footer {
-  padding: 12px 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-
-.live-footer button {
-  border: 0;
-  background: #27313a;
-  color: white;
-  border-radius: 10px;
-  padding: 9px 13px;
-}
-
-.camera-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
-}
-
-.camera-tile {
-  background: #111820;
-  border-radius: 17px;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.10);
-  transition: transform .15s ease;
-}
-
-.camera-tile:active {
-  transform: scale(.98);
-}
-
-.camera-tile.selected {
-  outline: 3px solid #3b82f6;
-}
-
-.camera-thumb {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #1b242c;
-  object-fit: cover;
-  display: block;
-}
-
-.camera-no-thumb {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #1b242c;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #89959d;
-  font-size: 14px;
-}
-
-.camera-tile-info {
-  padding: 13px 15px;
-  color: white;
-}
-
-.camera-tile-name {
-  font-weight: 600;
-}
-
-.camera-tile-status {
-  color: #8fe3a4;
-  font-size: 12px;
-  margin-top: 4px;
-}
-
-.loading {
-  padding: 40px;
-  text-align: center;
-  color: #6d7780;
-}
-
-.empty {
-  padding: 40px 20px;
-  text-align: center;
-  background: white;
-  border-radius: 18px;
-  color: #69747c;
-}
-
-.energy-bar {
-  height: 10px;
-  background: #e7eaed;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 14px;
-}
-
-.energy-bar-inner {
-  height: 100%;
-  width: 62%;
-  background: #17202a;
-  border-radius: 10px;
-}
-
-.footer {
-  text-align: center;
-  padding: 30px;
-  color: #8a949b;
-  font-size: 12px;
-}
-
-@media (max-width: 600px) {
-  .container {
-    padding: 14px;
+@media(max-width:600px){
+  .container{padding:14px}
+  .camera-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
   }
-
-  .header {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .card-value {
-    font-size: 27px;
-  }
-
-  .camera-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  .camera-tile-info {
-    padding: 10px;
-  }
-
-  .camera-tile-name {
-    font-size: 14px;
-  }
+  .camera-info{padding:10px}
+  .camera-name{font-size:14px}
+  .live-button{font-size:13px;padding:10px}
 }
 </style>
 </head>
@@ -378,34 +164,13 @@ button.action.secondary {
 </header>
 
 <nav class="tabs">
-
-  <button class="tab active"
-          onclick="showPage('homePage', this)">
-    Home
-  </button>
-
-  <button class="tab"
-          onclick="showPage('energyPage', this)">
-    Energy
-  </button>
-
-  <button class="tab"
-          onclick="showPage('gardenPage', this)">
-    Garden
-  </button>
-
-  <button class="tab"
-          onclick="showPage('cameraPage', this)">
-    Cameras
-  </button>
-
+  <button class="tab active" onclick="showPage('homePage',this)">Home</button>
+  <button class="tab" onclick="showPage('energyPage',this)">Energy</button>
+  <button class="tab" onclick="showPage('gardenPage',this)">Garden</button>
+  <button class="tab" onclick="showPage('cameraPage',this)">Cameras</button>
 </nav>
 
-
 <main class="container">
-
-
-<!-- HOME -->
 
 <section id="homePage" class="page active">
 
@@ -447,19 +212,14 @@ button.action.secondary {
       <div class="card-title">Home status</div>
       <div class="status">
         <span class="dot"></span>
-        <span>Systems connected</span>
+        Systems connected
       </div>
-      <div class="card-small">
-        Hive · Energy · Garden · Cameras
-      </div>
+      <div class="card-small">Hive · Energy · Garden · Cameras</div>
     </div>
 
   </div>
-
 </section>
 
-
-<!-- ENERGY -->
 
 <section id="energyPage" class="page">
 
@@ -470,9 +230,6 @@ button.action.secondary {
     <div class="card">
       <div class="card-title">Electricity</div>
       <div class="card-value">23.45 kWh</div>
-      <div class="energy-bar">
-        <div class="energy-bar-inner"></div>
-      </div>
       <div class="card-small">SO EV Peak + Off-Peak</div>
     </div>
 
@@ -495,11 +252,8 @@ button.action.secondary {
     </div>
 
   </div>
-
 </section>
 
-
-<!-- GARDEN -->
 
 <section id="gardenPage" class="page">
 
@@ -508,61 +262,44 @@ button.action.secondary {
   <div class="grid">
 
     <div class="card">
-
       <div class="card-title">Automower</div>
-
-      <div id="gardenBattery" class="card-value">
-        —
-      </div>
-
-      <div id="gardenState" class="card-small">
-        Loading…
-      </div>
-
-      <div id="gardenConnection" class="card-small">
-        Connecting…
-      </div>
-
+      <div id="gardenBattery" class="card-value">—</div>
+      <div id="gardenState" class="card-small">Loading…</div>
+      <div id="gardenConnection" class="card-small">Connecting…</div>
     </div>
 
-
     <div class="card">
-
       <div class="card-title">Ken controls</div>
 
-      <div class="notice">
+      <div class="card-small">
         Husqvarna Automower 430X
       </div>
 
       <div class="button-row">
 
         <button class="action"
-                onclick="mowerAction('START_MOWING')">
+          onclick="mowerAction('START_MOWING')">
           Start
         </button>
 
         <button class="action secondary"
-                onclick="mowerAction('PAUSE')">
+          onclick="mowerAction('PAUSE')">
           Pause
         </button>
 
         <button class="action secondary"
-                onclick="mowerAction('PARK_UNTIL_NEXT_SCHEDULE')">
+          onclick="mowerAction('PARK_UNTIL_NEXT_SCHEDULE')">
           Park
         </button>
 
       </div>
 
       <div id="actionResult" class="result"></div>
-
     </div>
 
   </div>
-
 </section>
 
-
-<!-- CAMERAS -->
 
 <section id="cameraPage" class="page">
 
@@ -575,117 +312,45 @@ button.action.secondary {
     </div>
 
     <button class="action secondary"
-            onclick="loadCameras()">
+      onclick="loadCameras()">
       Refresh
     </button>
 
   </div>
 
-
-  <!-- ONE LIVE STREAM ONLY -->
-
-  <div id="livePanel" class="live-panel">
-
-    <div class="live-header">
-
-      <div id="liveName" class="live-name">
-        Select a camera
-      </div>
-
-      <div id="liveStatus" class="live-status">
-        —
-      </div>
-
-    </div>
-
-    <div class="live-video-wrap">
-
-      <video
-        id="liveVideo"
-        class="live-video"
-        playsinline
-        controls
-        muted>
-      </video>
-
-      <div
-        id="livePlaceholder"
-        class="live-placeholder">
-        Tap a camera below to view it live.
-      </div>
-
-    </div>
-
-    <div class="live-footer">
-
-      <span style="color:#aeb8bf;font-size:12px">
-        One live camera at a time
-      </span>
-
-      <button onclick="fullscreenLive()">
-        Full screen
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div
-    id="cameraLoading"
-    class="loading">
+  <div id="cameraLoading" class="loading">
     Connecting to your Imou cameras…
   </div>
 
-
-  <div
-    id="cameraGrid"
-    class="camera-grid">
-  </div>
+  <div id="cameraGrid" class="camera-grid"></div>
 
 </section>
 
-
 </main>
 
-
-<div class="footer">
-  My Home
-</div>
+<div class="footer">My Home</div>
 
 
 <script>
 
 const MOWER_ID =
-  "24846e9d-9925-4dea-a24a-a97c2da45b18";
+"24846e9d-9925-4dea-a24a-a97c2da45b18";
 
 
-let cameras = [];
+function showPage(pageId,button){
 
-let selectedCameraIndex = -1;
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
 
-
-function showPage(pageId, button) {
-
-  document
-    .querySelectorAll(".page")
-    .forEach(page => {
-      page.classList.remove("active");
-    });
-
-  document
-    .getElementById(pageId)
+  document.getElementById(pageId)
     .classList.add("active");
 
-  document
-    .querySelectorAll(".tab")
-    .forEach(tab => {
-      tab.classList.remove("active");
-    });
+  document.querySelectorAll(".tab")
+    .forEach(t=>t.classList.remove("active"));
 
   button.classList.add("active");
 
-  if (pageId === "cameraPage") {
+  if(pageId==="cameraPage"){
     loadCameras();
   }
 }
@@ -693,724 +358,263 @@ function showPage(pageId, button) {
 
 /* ---------------- MOWER ---------------- */
 
-async function loadMower() {
+async function loadMower(){
 
-  try {
+  try{
 
-    const r =
-      await fetch("/api/mowers");
+    const r=await fetch("/api/mowers");
 
-    if (!r.ok) {
+    if(!r.ok)
       throw new Error(await r.text());
-    }
 
-    const j =
-      await r.json();
+    const j=await r.json();
 
-    const a =
-      j?.data?.[0]?.attributes || {};
+    const a=j?.data?.[0]?.attributes||{};
 
-    const battery =
-      a?.battery?.batteryPercent ?? "—";
+    const battery=
+      a?.battery?.batteryPercent??"—";
 
-    const state =
-      a?.mower?.activity ?? "Unknown";
+    const state=
+      a?.mower?.activity??"Unknown";
 
-    const connected =
-      a?.metadata?.connected === true;
+    const connected=
+      a?.metadata?.connected===true;
 
     document.getElementById("mowerBattery")
-      .textContent =
-        battery === "—"
-          ? "—"
-          : battery + "%";
+      .textContent=
+      battery==="—"?"—":battery+"%";
 
     document.getElementById("mowerState")
-      .textContent =
-        String(state);
+      .textContent=String(state);
 
     document.getElementById("gardenBattery")
-      .textContent =
-        battery === "—"
-          ? "—"
-          : battery + "% battery";
+      .textContent=
+      battery==="—"?"—":battery+"% battery";
 
     document.getElementById("gardenState")
-      .textContent =
-        String(state);
+      .textContent=String(state);
 
     document.getElementById("gardenConnection")
-      .textContent =
-        connected
-          ? "Connected"
-          : "Cloud connection unavailable";
+      .textContent=
+      connected?"Connected":"Unavailable";
 
-  } catch (e) {
+  }catch(e){
 
     document.getElementById("mowerState")
-      .textContent =
-        "Unavailable";
+      .textContent="Unavailable";
 
     document.getElementById("gardenState")
-      .textContent =
-        "Unable to load Ken";
+      .textContent="Unable to load Ken";
 
     document.getElementById("gardenConnection")
-      .textContent =
-        "Unavailable";
+      .textContent="Unavailable";
   }
 }
 
 
-async function mowerAction(action) {
+async function mowerAction(action){
 
-  const box =
+  const box=
     document.getElementById("actionResult");
 
-  box.textContent =
-    "Sending command…";
+  box.textContent="Sending command…";
 
-  try {
+  try{
 
-    const r =
+    const r=
       await fetch(
-        "/api/mowers/" +
-        MOWER_ID +
-        "/actions",
+        "/api/mowers/"+MOWER_ID+"/actions",
         {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
           },
-
-          body:
-            JSON.stringify({
-              action
-            })
+          body:JSON.stringify({action})
         }
       );
 
-    const j =
-      await r.json();
+    const j=await r.json();
 
-    if (!r.ok || j.error) {
-      throw new Error(
-        j.error ||
-        "Command failed"
-      );
-    }
+    if(!r.ok||j.error)
+      throw new Error(j.error||"Command failed");
 
-    box.textContent =
-      "Command sent.";
+    box.textContent="Command sent.";
 
-    setTimeout(
-      loadMower,
-      3000
-    );
+    setTimeout(loadMower,3000);
 
-  } catch (e) {
+  }catch(e){
 
-    box.textContent =
-      "Error: " +
-      e.message;
+    box.textContent="Error: "+e.message;
+
   }
 }
 
 
 /* ---------------- CAMERAS ---------------- */
 
+async function loadCameras(){
 
-async function loadCameras() {
+  const loading=
+    document.getElementById("cameraLoading");
 
-  const loading =
-    document.getElementById(
-      "cameraLoading"
-    );
+  const grid=
+    document.getElementById("cameraGrid");
 
-  const grid =
-    document.getElementById(
-      "cameraGrid"
-    );
+  const count=
+    document.getElementById("cameraCount");
 
-  const count =
-    document.getElementById(
-      "cameraCount"
-    );
+  loading.style.display="block";
+  grid.innerHTML="";
+  count.textContent="Connecting…";
 
-  loading.style.display =
-    "block";
+  try{
 
-  grid.innerHTML =
-    "";
+    const response=
+      await fetch("/api/imou/streams");
 
-  count.textContent =
-    "Connecting…";
+    if(!response.ok)
+      throw new Error(await response.text());
 
-
-  try {
-
-    const response =
-      await fetch(
-        "/api/imou/streams"
-      );
-
-    if (!response.ok) {
-      throw new Error(
-        await response.text()
-      );
-    }
-
-    const data =
+    const data=
       await response.json();
 
-    cameras =
-      data.cameras || [];
+    const cameras=
+      data.cameras||[];
 
-    loading.style.display =
-      "none";
+    loading.style.display="none";
 
-    count.textContent =
-      cameras.length +
-      (
-        cameras.length === 1
-          ? " camera"
-          : " cameras"
-      );
+    count.textContent=
+      cameras.length+
+      (cameras.length===1?" camera":" cameras");
 
 
-    if (cameras.length === 0) {
+    if(!cameras.length){
 
-      grid.innerHTML = `
-        <div class="empty">
-          No cameras were found.
-        </div>
-      `;
+      grid.innerHTML=
+        '<div class="empty">No cameras found.</div>';
 
       return;
     }
 
 
-    cameras.forEach(
-      (camera, index) => {
+    cameras.forEach((camera,index)=>{
 
-        grid.appendChild(
-          createCameraTile(
-            camera,
-            index
-          )
-        );
+      const card=
+        document.createElement("div");
+
+      card.className="camera-card";
+
+
+      let name=camera.name;
+
+      if(!name||/^\d+$/.test(name))
+        name="Camera "+(index+1);
+
+      if(name==="PT Lens")
+        name="PT Camera";
+
+      if(name==="Fixed Lens")
+        name="Fixed Camera";
+
+
+      const preview=
+        document.createElement("div");
+
+      preview.className="camera-preview";
+
+      preview.textContent=
+        camera.hls
+          ?"LIVE STREAM READY"
+          :"Stream unavailable";
+
+
+      card.appendChild(preview);
+
+
+      const info=
+        document.createElement("div");
+
+      info.className="camera-info";
+
+
+      const title=
+        document.createElement("div");
+
+      title.className="camera-name";
+      title.textContent=name;
+
+      info.appendChild(title);
+
+
+      const status=
+        document.createElement("div");
+
+      status.className="camera-status";
+
+      status.textContent=
+        camera.hls
+          ?"● Live available"
+          :"Unavailable";
+
+      info.appendChild(status);
+
+
+      if(camera.hls){
+
+        const live=
+          document.createElement("a");
+
+        live.className="live-button";
+
+        live.textContent=
+          "▶  Watch live";
+
+        live.href=
+          camera.hls;
+
+        live.target="_blank";
+
+        live.rel="noopener";
+
+        info.appendChild(live);
 
       }
-    );
 
 
-    /*
-      Automatically select the first camera.
-      Only ONE video stream is started.
-    */
+      card.appendChild(info);
 
-    if (
-      selectedCameraIndex < 0 &&
-      cameras.length > 0
-    ) {
+      grid.appendChild(card);
 
-      selectCamera(0);
+    });
 
-    } else if (
-      selectedCameraIndex >= 0 &&
-      selectedCameraIndex < cameras.length
-    ) {
+  }catch(error){
 
-      selectCamera(
-        selectedCameraIndex
-      );
+    loading.style.display="none";
 
-    }
+    count.textContent="Camera error";
 
-  } catch (error) {
-
-    loading.style.display =
-      "none";
-
-    count.textContent =
-      "Camera connection error";
-
-    grid.innerHTML = `
-      <div class="empty">
-        <strong>
-          Unable to load cameras
-        </strong>
-        <br><br>
-        ${escapeHtml(error.message)}
-      </div>
-    `;
+    grid.innerHTML=
+      '<div class="empty">'+
+      escapeHtml(error.message)+
+      '</div>';
   }
 }
 
 
-function createCameraTile(
-  camera,
-  index
-) {
-
-  const tile =
-    document.createElement(
-      "div"
-    );
-
-  tile.className =
-    "camera-tile";
-
-
-  if (
-    index === selectedCameraIndex
-  ) {
-
-    tile.classList.add(
-      "selected"
-    );
-
-  }
-
-
-  tile.onclick =
-    () => selectCamera(index);
-
-
-  let name =
-    camera.name;
-
-
-  /*
-    Some Imou cameras return the serial
-    as the channel name. Give those a
-    friendly camera number instead.
-  */
-
-  if (
-    !name ||
-    /^\d+$/.test(name)
-  ) {
-
-    name =
-      "Camera " +
-      (index + 1);
-
-  }
-
-
-  /*
-    Make the dual-lens camera's channels
-    more understandable.
-  */
-
-  if (
-    name === "PT Lens"
-  ) {
-
-    name = "PT Camera";
-
-  }
-
-
-  if (
-    name === "Fixed Lens"
-  ) {
-
-    name = "Fixed Camera";
-
-  }
-
-
-  if (camera.coverUrl) {
-
-    const image =
-      document.createElement(
-        "img"
-      );
-
-    image.className =
-      "camera-thumb";
-
-    image.src =
-      camera.coverUrl;
-
-    image.alt =
-      name;
-
-    image.onerror =
-      () => {
-
-        image.style.display =
-          "none";
-
-        const fallback =
-          document.createElement(
-            "div"
-          );
-
-        fallback.className =
-          "camera-no-thumb";
-
-        fallback.textContent =
-          "Camera preview";
-
-        tile.insertBefore(
-          fallback,
-          tile.firstChild
-        );
-
-      };
-
-    tile.appendChild(
-      image
-    );
-
-  } else {
-
-    const fallback =
-      document.createElement(
-        "div"
-      );
-
-    fallback.className =
-      "camera-no-thumb";
-
-    fallback.textContent =
-      "Camera preview";
-
-    tile.appendChild(
-      fallback
-    );
-
-  }
-
-
-  const info =
-    document.createElement(
-      "div"
-    );
-
-  info.className =
-    "camera-tile-info";
-
-
-  const title =
-    document.createElement(
-      "div"
-    );
-
-  title.className =
-    "camera-tile-name";
-
-  title.textContent =
-    name;
-
-
-  const status =
-    document.createElement(
-      "div"
-    );
-
-  status.className =
-    "camera-tile-status";
-
-  status.textContent =
-    camera.hls
-      ? "● Live available"
-      : "Stream unavailable";
-
-
-  info.appendChild(
-    title
-  );
-
-  info.appendChild(
-    status
-  );
-
-  tile.appendChild(
-    info
-  );
-
-
-  return tile;
-}
-
-
-/*
-  Select a camera.
-
-  IMPORTANT:
-  We stop the existing stream before
-  starting the new one.
-*/
-
-function selectCamera(index) {
-
-  if (
-    !cameras[index]
-  ) {
-    return;
-  }
-
-
-  selectedCameraIndex =
-    index;
-
-
-  const camera =
-    cameras[index];
-
-
-  const video =
-    document.getElementById(
-      "liveVideo"
-    );
-
-  const placeholder =
-    document.getElementById(
-      "livePlaceholder"
-    );
-
-  const name =
-    document.getElementById(
-      "liveName"
-    );
-
-  const status =
-    document.getElementById(
-      "liveStatus"
-    );
-
-
-  /*
-    Stop the previous stream completely.
-  */
-
-  video.pause();
-
-  video.removeAttribute(
-    "src"
-  );
-
-  video.load();
-
-
-  name.textContent =
-    getFriendlyCameraName(
-      camera,
-      index
-    );
-
-
-  if (
-    !camera.hls
-  ) {
-
-    status.textContent =
-      "Unavailable";
-
-    placeholder.style.display =
-      "flex";
-
-    placeholder.textContent =
-      camera.error ||
-      "Live stream unavailable";
-
-    video.style.display =
-      "none";
-
-    return;
-  }
-
-
-  status.textContent =
-    "CONNECTING…";
-
-
-  placeholder.style.display =
-    "flex";
-
-  placeholder.textContent =
-    "Starting live stream…";
-
-
-  video.style.display =
-    "block";
-
-
-  video.src =
-    camera.hls;
-
-
-  video.onloadedmetadata =
-    () => {
-
-      placeholder.style.display =
-        "none";
-
-      status.textContent =
-        "LIVE";
-
-      video.play()
-        .catch(() => {
-          /*
-            iPad may require the user to
-            press the play button.
-          */
-        });
-
-    };
-
-
-  video.onerror =
-    () => {
-
-      placeholder.style.display =
-        "flex";
-
-      placeholder.textContent =
-        "Unable to play this live stream.";
-
-      status.textContent =
-        "STREAM ERROR";
-
-    };
-
-
-  /*
-    Refresh the tile highlighting.
-  */
-
-  document
-    .querySelectorAll(
-      ".camera-tile"
-    )
-    .forEach(
-      (tile, tileIndex) => {
-
-        tile.classList.toggle(
-          "selected",
-          tileIndex === index
-        );
-
-      }
-    );
-
-}
-
-
-function getFriendlyCameraName(
-  camera,
-  index
-) {
-
-  let name =
-    camera?.name;
-
-
-  if (
-    !name ||
-    /^\d+$/.test(name)
-  ) {
-
-    return "Camera " +
-      (index + 1);
-
-  }
-
-
-  if (
-    name === "PT Lens"
-  ) {
-
-    return "PT Camera";
-
-  }
-
-
-  if (
-    name === "Fixed Lens"
-  ) {
-
-    return "Fixed Camera";
-
-  }
-
-
-  return name;
-}
-
-
-/*
-  Full screen selected camera.
-*/
-
-function fullscreenLive() {
-
-  const video =
-    document.getElementById(
-      "liveVideo"
-    );
-
-
-  if (
-    video.requestFullscreen
-  ) {
-
-    video.requestFullscreen();
-
-  } else if (
-    video.webkitEnterFullscreen
-  ) {
-
-    video.webkitEnterFullscreen();
-
-  }
-
-}
-
-
-function escapeHtml(value) {
+function escapeHtml(value){
 
   return String(value)
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
-
-/* Initial mower load */
 
 loadMower();
 
-
-/* Refresh mower every 30 seconds */
-
-setInterval(
-  loadMower,
-  30000
-);
+setInterval(loadMower,30000);
 
 </script>
 
