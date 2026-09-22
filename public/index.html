@@ -307,24 +307,39 @@ async function loadMower(){
 
     const j = await r.json();
 
-    const m = j?.data?.[0] || j?.[0] || j;
-    const a = m?.attributes || m || {};
+    const m =
+  Array.isArray(j?.data) ? j.data[0] :
+  Array.isArray(j) ? j[0] :
+  j?.data ?? j;
 
-    const battery =
-      a?.batteryPercent ??
-      a?.battery?.percent ??
-      a?.battery?.level ??
-      a?.battery ??
-      '—';
+const a =
+  m?.attributes && typeof m.attributes === 'object'
+    ? m.attributes
+    : m;
 
-    const state =
-      a?.activity?.state ??
-      a?.activity ??
-      a?.status?.state ??
-      a?.status ??
-      'Unknown';
+const battery =
+  typeof a?.batteryPercent === 'number'
+    ? a.batteryPercent
+    : typeof a?.battery?.percent === 'number'
+    ? a.battery.percent
+    : typeof a?.battery?.level === 'number'
+    ? a.battery.level
+    : '—';
 
-    const connected =
+const state =
+  typeof a?.activity === 'string'
+    ? a.activity
+    : typeof a?.activity?.state === 'string'
+    ? a.activity.state
+    : typeof a?.status === 'string'
+    ? a.status
+    : typeof a?.status?.state === 'string'
+    ? a.status.state
+    : 'Unknown';
+
+const connected =
+  a?.connected === true ||
+  a?.connection?.connected === true;
       a?.connected ??
       a?.connection?.connected ??
       false;
