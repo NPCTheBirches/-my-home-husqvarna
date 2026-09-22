@@ -307,24 +307,16 @@ async function loadMower(){
 
     const j = await r.json();
 
-    const m =
-  Array.isArray(j?.data) ? j.data[0] :
-  Array.isArray(j) ? j[0] :
-  j?.data ?? j;
-
-const a =
-  m?.attributes && typeof m.attributes === 'object'
-    ? m.attributes
-    : m;
+   const a = j?.data?.[0]?.attributes || {};
 
 const battery =
-  typeof a?.batteryPercent === 'number'
-    ? a.batteryPercent
-    : typeof a?.battery?.percent === 'number'
-    ? a.battery.percent
-    : typeof a?.battery?.level === 'number'
-    ? a.battery.level
-    : '—';
+  a?.battery?.batteryPercent ?? '—';
+
+const state =
+  a?.mower?.activity ?? 'Unknown';
+
+const connected =
+  a?.metadata?.connected === true;
 
 const state =
   typeof a?.activity === 'string'
