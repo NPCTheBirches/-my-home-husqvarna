@@ -1,15 +1,20 @@
-import express from "express";
+
+  import express from "express";
 import cors from "cors";
 import path from "path";
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
+
 app.get("/", (req, res) => {
   res.sendFile(path.resolve("public/index.html"));
 });
+
 const PORT = process.env.PORT || 3000;
+
 const API_KEY = process.env.HUSQVARNA_APPLICATION_KEY;
 const API_SECRET = process.env.HUSQVARNA_APPLICATION_SECRET;
 
@@ -60,7 +65,7 @@ async function getToken() {
   return cachedToken;
 }
 
-async function husqvarna(path, options = {}) {
+async function husqvarna(apiPath, options = {}) {
   const token = await getToken();
 
   const headers = {
@@ -70,7 +75,7 @@ async function husqvarna(path, options = {}) {
     ...(options.headers || {})
   };
 
-  const response = await fetch(API_BASE + path, {
+  const response = await fetch(API_BASE + apiPath, {
     ...options,
     headers
   });
@@ -141,6 +146,7 @@ app.post("/api/mowers/:id/actions", async (req, res) => {
                 : req.body.action === "PARK_UNTIL_FURTHER_NOTICE"
                 ? "ParkUntilFurtherNotice"
                 : "ResumeSchedule",
+
             attributes:
               req.body.action === "START_MOWING"
                 ? { duration: 60 }
@@ -151,10 +157,17 @@ app.post("/api/mowers/:id/actions", async (req, res) => {
     );
 
     res.json(result);
+
   } catch (error) {
-    res.status(502).json({ error: error.message });
+    res.status(502).json({
+      error: error.message
+    });
   }
 });
+
+
+// ---------------- IMOU CAMERA API ----------------
+
 const IMOU_APP_ID = process.env.IMOU_APP_ID;
 const IMOU_APP_SECRET = process.env.IMOU_APP_SECRET;
 
@@ -164,18 +177,30 @@ let imouHost = null;
 
 async function getImouToken() {
 
-  if (imouToken && Date.now() < imouTokenExpiry - 60000) {
+  if (
+    imouToken &&
+    Date.now() < imouTokenExpiry - 60000
+  ) {
     return imouToken;
   }
 
   if (!IMOU_APP_ID || !IMOU_APP_SECRET) {
-    throw new Error("Imou credentials are not configured.");
+    throw new Error(
+      "Imou credentials are not configured."
+    );
   }
 
-  const { createHash, createHmac, randomUUID } =
-    await import("node:crypto");
+  const {
+    createHash,
+    createHmac,
+    randomUUID
+  } = await import("node:crypto");
 
-  const dataCenters = ["sg", "fk", "or"];
+  const dataCenters = [
+    "sg",
+    "fk",
+    "or"
+  ];
 
   let lastError = null;
 
@@ -186,8 +211,11 @@ async function getImouToken() {
       const host =
         `https://openapi-${dataCenter}.easy4ip.com`;
 
-      const time = Math.floor(Date.now() / 1000);
-      const nonce = randomUUID();
+      const time =
+        Math.floor(Date.now() / 1000);
+
+      const nonce =
+        randomUUID();
 
       const signTemplate =
         `time:${time},nonce:${nonce},appSecret:${IMOU_APP_SECRET}`;
@@ -198,7 +226,10 @@ async function getImouToken() {
           .digest("hex");
 
       const sign =
-        createHmac("sha256", password)
+        createHmac(
+          "sha256",
+          password
+        )
           .update(signTemplate)
           .digest("base64");
 
@@ -210,25 +241,33 @@ async function getImouToken() {
           time,
           nonce
         },
+
         id: randomUUID(),
+
         params: {}
       };
 
-      const response = await fetch(
-        `${host}/openapi/accessToken`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json;charset=UTF-8"
-          },
-          body: JSON.stringify(body)
-        }
-      );
+      const response =
+        await fetch(
+          `${host}/openapi/accessToken`,
+          {
+            method: "POST",
 
-      const json = await response.json();
+            headers: {
+              "Content-Type":
+                "application/json;charset=UTF-8"
+            },
 
-      const result = json?.result;
+            body:
+              JSON.stringify(body)
+          }
+        );
+
+      const json =
+        await response.json();
+
+      const result =
+        json?.result;
 
       if (
         response.ok &&
@@ -236,30 +275,178 @@ async function getImouToken() {
         result?.data?.accessToken
       ) {
 
-        imouToken = result.data.accessToken;
+        imouToken =
+          result.data.accessToken;
 
         imouTokenExpiry =
           Date.now() +
-          Number(result.data.expireTime || 259200) * 1000;
+          Number(
+            result.data.expireTime ||
+            259200
+          ) * 1000;
 
-        imouHost = host;
+        imouHost =
+          host;
 
         return imouToken;
       }
 
-      lastError = new Error(
-        `Imou ${dataCenter}: ${result?.code || response.status} ${result?.msg || ""}`
-      );
+      lastError =
+        new Error(
+          `Imou ${dataCenter}: ${result?.code || response.status} ${result?.msg || ""}`
+        );
 
     } catch (error) {
-      lastError = error;
+
+      lastError =
+        error;
+
     }
   }
 
-  throw lastError || new Error("Unable to obtain Imou access token.");
+  throw (
+    lastError ||
+    new Error(
+      "Unable to obtain Imou access token."
+    )
+  );
 }
 
+
+async function imouRequest(
+  endpoint,
+  params = {}
+) {
+
+  const token =
+    await getImouToken();
+
+  const {
+    createHash,
+    createHmac,
+    randomUUID
+  } = await import("node:crypto");
+
+  const time =
+    Math.floor(Date.now() / 1000);
+
+  const nonce =
+    randomUUID();
+
+  const signTemplate =
+    `time:${time},nonce:${nonce},appSecret:${IMOU_APP_SECRET}`;
+
+  const password =
+    createHash("sha256")
+      .update(IMOU_APP_SECRET)
+      .digest("hex");
+
+  const sign =
+    createHmac(
+      "sha256",
+      password
+    )
+      .update(signTemplate)
+      .digest("base64");
+
+  const body = {
+
+    system: {
+      ver: "1.0",
+      appId: IMOU_APP_ID,
+      sign,
+      time,
+      nonce
+    },
+
+    id:
+      randomUUID(),
+
+    params: {
+      ...params,
+      token
+    }
+  };
+
+  const response =
+    await fetch(
+      `${imouHost}${endpoint}`,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json;charset=UTF-8"
+        },
+
+        body:
+          JSON.stringify(body)
+      }
+    );
+
+  const json =
+    await response.json();
+
+  if (!response.ok) {
+
+    throw new Error(
+      `Imou API HTTP ${response.status}`
+    );
+
+  }
+
+  if (
+    json?.result?.code !== "0"
+  ) {
+
+    throw new Error(
+      `Imou API ${json?.result?.code || "unknown"}: ${json?.result?.msg || "Unknown error"}`
+    );
+
+  }
+
+  return json;
+}
+
+
+app.get(
+  "/api/imou/devices",
+  async (req, res) => {
+
+    try {
+
+      const result =
+        await imouRequest(
+          "/openapi/deviceBaseList",
+          {
+            bindId: -1,
+            limit: 128,
+            type: "bind",
+            needApInfo: true
+          }
+        );
+
+      res.json(result);
+
+    } catch (error) {
+
+      res.status(502).json({
+        error: error.message
+      });
+
+    }
+
+  }
+);
+
+
 // ---------------- END IMOU CAMERA API ----------------
-app.listen(PORT, () => {
-  console.log(`My Home server running on port ${PORT}`);
-});
+
+app.listen(
+  PORT,
+  () => {
+    console.log(
+      `My Home server running on port ${PORT}`
+    );
+  }
+);
