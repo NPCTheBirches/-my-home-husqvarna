@@ -3,101 +3,621 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0d1720">
 <title>My Home</title>
+
 <style>
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#f4f6f7;color:#15212b;-webkit-font-smoothing:antialiased}
-button{font:inherit;cursor:pointer}.app{min-height:100vh}.hero{color:#fff;background:linear-gradient(135deg,#0c1720 0%,#1d3039 58%,#34535a 100%);padding:28px 22px 34px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-90px;top:-80px;background:rgba(255,255,255,.07)}.hero-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}.eyebrow{font-size:11px;letter-spacing:1.5px;font-weight:700;opacity:.68}.date{font-size:12px;opacity:.65}.brand{font-size:34px;line-height:1;font-weight:750;margin-top:12px;letter-spacing:-1px}.welcome{font-size:15px;opacity:.78;margin-top:8px}.system-pill{display:inline-flex;align-items:center;gap:7px;margin-top:20px;padding:8px 12px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.09);border-radius:999px;font-size:12px}.green{width:7px;height:7px;border-radius:50%;background:#67d391;box-shadow:0 0 0 4px rgba(103,211,145,.12)}
-.nav{position:sticky;top:0;z-index:10;background:rgba(244,246,247,.94);backdrop-filter:blur(14px);padding:12px 16px;border-bottom:1px solid #e2e7e9}.tabs{max-width:1100px;margin:auto;display:flex;gap:7px;overflow:auto}.tab{border:0;background:transparent;color:#68747c;padding:10px 16px;border-radius:999px;font-size:14px;font-weight:650;white-space:nowrap}.tab.active{background:#15212b;color:#fff;box-shadow:0 4px 12px rgba(21,33,43,.16)}
-.container{max-width:1100px;margin:auto;padding:24px 18px 40px}.page{display:none}.page.active{display:block}.section-head{display:flex;justify-content:space-between;align-items:end;margin:2px 2px 16px}.section-title{font-size:25px;font-weight:750;letter-spacing:-.4px}.section-sub{font-size:13px;color:#7a858c;margin-top:4px}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.card{grid-column:span 4;background:#fff;border:1px solid #e8ecee;border-radius:20px;padding:19px;box-shadow:0 6px 22px rgba(18,34,43,.045)}.card.wide{grid-column:span 8}.card.full{grid-column:1/-1}.label{font-size:12px;color:#7b868d;font-weight:650;text-transform:uppercase;letter-spacing:.6px}.value{font-size:32px;font-weight:760;letter-spacing:-1px;margin-top:9px}.muted{font-size:12px;color:#879198;margin-top:5px}.temperature{background:linear-gradient(135deg,#fff,#eef5f4)}.temperature .value{font-size:43px}.icon{width:38px;height:38px;border-radius:13px;background:#edf2f3;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px}.status-row{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:650;margin-top:12px}.dot{width:8px;height:8px;border-radius:50%;background:#55c77c}.mower{background:linear-gradient(135deg,#f5faf6,#fff)}.mower-top{display:flex;justify-content:space-between;gap:12px}.battery{font-size:28px;font-weight:760}.badge{font-size:11px;padding:6px 9px;border-radius:999px;background:#eaf7ef;color:#2b8a51;height:max-content}.controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}.action{border:0;border-radius:12px;padding:11px 15px;background:#15212b;color:#fff;font-weight:700;font-size:13px}.action.secondary{background:#edf0f2;color:#24313a}.result{font-size:12px;color:#77828a;margin-top:11px;min-height:16px}.energy-bar{margin-top:16px;height:8px;background:#edf0f1;border-radius:99px;overflow:hidden}.energy-fill{height:100%;width:62%;background:#3d6b71;border-radius:99px}.mini-row{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:12px;color:#69757d}.camera-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.camera-card{background:#11191f;border-radius:20px;overflow:hidden;color:#fff;box-shadow:0 7px 24px rgba(0,0,0,.12)}.camera-preview{aspect-ratio:16/9;background:#1b252c;display:flex;align-items:center;justify-content:center;color:#aeb8be;font-size:12px;letter-spacing:.5px}.camera-info{padding:15px}.camera-name{font-weight:700;font-size:15px}.camera-status{font-size:11px;color:#83d99d;margin-top:5px}.camera-info video{display:block;margin-top:12px;width:100%;border-radius:12px;background:#000}.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.count{font-size:12px;color:#7d878e}.loading,.empty{padding:40px 20px;text-align:center;color:#7a858c;background:#fff;border:1px solid #e8ecee;border-radius:20px}.footer{text-align:center;padding:12px 20px 30px;color:#a0a8ad;font-size:11px}
-@media(max-width:760px){.hero{padding:23px 18px 28px}.brand{font-size:30px}.container{padding:20px 14px 34px}.card,.card.wide{grid-column:span 6}.camera-grid{grid-template-columns:1fr 1fr}.value{font-size:28px}}
-@media(max-width:520px){.card,.card.wide{grid-column:1/-1}.camera-grid{grid-template-columns:1fr}.section-title{font-size:23px}.temperature .value{font-size:40px}}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#f3f5f7;
+  color:#17202a;
+}
+.header{
+  background:#fff;
+  padding:22px;
+  border-bottom:1px solid #e2e6e9;
+}
+.header-title{font-size:28px;font-weight:700}
+.header-subtitle{color:#6b747c;margin-top:4px;font-size:14px}
+.tabs{
+  display:flex;
+  gap:8px;
+  padding:12px 16px;
+  background:#fff;
+  border-bottom:1px solid #e2e6e9;
+  overflow-x:auto;
+}
+.tab{
+  border:0;
+  background:#eef1f3;
+  padding:10px 18px;
+  border-radius:22px;
+  font-size:15px;
+  white-space:nowrap;
+}
+.tab.active{background:#17202a;color:#fff}
+.container{max-width:1200px;margin:auto;padding:20px}
+.page{display:none}
+.page.active{display:block}
+.section-title{font-size:22px;font-weight:700;margin:8px 0 16px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:16px;
+}
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.card-title{font-size:14px;color:#6b747c;margin-bottom:10px}
+.card-value{font-size:30px;font-weight:700}
+.card-small{font-size:13px;color:#707980;margin-top:6px}
+.status{display:flex;align-items:center;gap:7px;font-size:13px}
+.dot{width:9px;height:9px;border-radius:50%;background:#2da44e}
+.button-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+button.action{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  font-size:15px;
+  font-weight:600;
+  background:#17202a;
+  color:#fff;
+}
+button.secondary{background:#e8ecef!important;color:#17202a!important}
+.result{margin-top:14px;font-size:14px;color:#68737b}
+
+/* CAMERAS */
+.camera-toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+.camera-count{color:#68737b;font-size:14px}
+.camera-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;
+}
+.camera-card{
+  background:#111820;
+  border-radius:18px;
+  overflow:hidden;
+  color:#fff;
+  box-shadow:0 3px 12px rgba(0,0,0,.12);
+}
+.camera-preview{
+  aspect-ratio:16/9;
+  background:#1c252d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#aeb8bf;
+  font-size:14px;
+}
+.camera-info{
+  padding:15px;
+}
+.camera-name{
+  font-size:16px;
+  font-weight:600;
+}
+.camera-status{
+  color:#8fe3a4;
+  font-size:12px;
+  margin-top:5px;
+}
+.live-button{
+  display:block;
+  width:100%;
+  margin-top:13px;
+  border:0;
+  border-radius:11px;
+  padding:12px;
+  background:#fff;
+  color:#17202a;
+  font-size:15px;
+  font-weight:600;
+  text-align:center;
+  text-decoration:none;
+}
+.loading{
+  text-align:center;
+  padding:40px;
+  color:#6d7780;
+}
+.empty{
+  background:#fff;
+  padding:35px;
+  border-radius:18px;
+  text-align:center;
+  color:#69747c;
+}
+.footer{
+  text-align:center;
+  padding:30px;
+  color:#8a949b;
+  font-size:12px;
+}
+@media(max-width:600px){
+  .container{padding:14px}
+  .camera-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+  .camera-info{padding:10px}
+  .camera-name{font-size:14px}
+  .live-button{font-size:13px;padding:10px}
+}
 </style>
 </head>
+
 <body>
-<div class="app">
-<header class="hero">
-<div class="hero-top"><div class="eyebrow">SMART HOME</div><div id="date" class="date"></div></div>
-<div class="brand">My Home</div>
-<div class="welcome">Good morning, Nick</div>
-<div class="system-pill"><span class="green"></span> All systems connected</div>
+
+<header class="header">
+  <div class="header-title">My Home</div>
+  <div class="header-subtitle">Home control & monitoring</div>
 </header>
-<nav class="nav"><div class="tabs">
-<button class="tab active" onclick="showPage('homePage',this)">Home</button>
-<button class="tab" onclick="showPage('energyPage',this)">Energy</button>
-<button class="tab" onclick="showPage('gardenPage',this)">Garden</button>
-<button class="tab" onclick="showPage('cameraPage',this)">Cameras</button>
-</div></nav>
+
+<nav class="tabs">
+  <button class="tab active" onclick="showPage('homePage',this)">Home</button>
+  <button class="tab" onclick="showPage('energyPage',this)">Energy</button>
+  <button class="tab" onclick="showPage('gardenPage',this)">Garden</button>
+  <button class="tab" onclick="showPage('cameraPage',this)">Cameras</button>
+</nav>
+
 <main class="container">
+
 <section id="homePage" class="page active">
-<div class="section-head"><div><div class="section-title">Overview</div><div class="section-sub">Everything at a glance</div></div></div>
-<div class="grid">
-<div class="card wide temperature"><div class="icon">⌂</div><div class="label">Inside temperature</div><div class="value">19.9°C</div><div class="muted">Hive thermostat · Home</div></div>
-<div class="card mower"><div class="mower-top"><div><div class="label">Ken</div><div id="mowerBattery" class="battery">—</div><div id="mowerState" class="muted">Connecting to Automower…</div></div><div id="mowerBadge" class="badge">Connecting</div></div></div>
-<div class="card"><div class="icon">⚡</div><div class="label">Electricity</div><div class="value">23.45 kWh</div><div class="muted">Latest So Energy day</div></div>
-<div class="card"><div class="icon">♨</div><div class="label">Gas</div><div class="value">29.31 kWh</div><div class="muted">Latest So Energy day</div></div>
-<div class="card"><div class="icon">£</div><div class="label">Energy cost</div><div class="value">£6.71</div><div class="muted">Latest So Energy day</div></div>
-<div class="card"><div class="icon">✓</div><div class="label">Connected</div><div class="status-row"><span class="dot"></span> Hive · So Energy · Ken</div><div class="muted">Cameras available on demand</div></div>
-</div>
+
+  <div class="section-title">Home</div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-title">House temperature</div>
+      <div class="card-value">19.9°C</div>
+      <div class="card-small">Hive thermostat</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Electricity</div>
+      <div class="card-value">23.45 kWh</div>
+      <div class="card-small">Latest So Energy day</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Gas</div>
+      <div class="card-value">29.31 kWh</div>
+      <div class="card-small">Latest So Energy day</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Energy cost</div>
+      <div class="card-value">£6.71</div>
+      <div class="card-small">Latest So Energy day</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Ken</div>
+      <div id="mowerBattery" class="card-value">—</div>
+      <div id="mowerState" class="card-small">Loading…</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Home status</div>
+      <div class="status">
+        <span class="dot"></span>
+        Systems connected
+      </div>
+      <div class="card-small">Hive · Energy · Garden · Cameras</div>
+    </div>
+
+  </div>
 </section>
+
+
 <section id="energyPage" class="page">
-<div class="section-head"><div><div class="section-title">Energy</div><div class="section-sub">Latest available usage</div></div></div>
-<div class="grid">
-<div class="card"><div class="label">Electricity</div><div class="value">23.45 kWh</div><div class="muted">SO EV Peak + Off-Peak</div><div class="energy-bar"><div class="energy-fill"></div></div></div>
-<div class="card"><div class="label">Gas</div><div class="value">29.31 kWh</div><div class="muted">Latest So Energy reading</div><div class="energy-bar"><div class="energy-fill" style="width:48%"></div></div></div>
-<div class="card"><div class="label">Total usage</div><div class="value">52.76 kWh</div><div class="muted">Latest So Energy day</div></div>
-<div class="card"><div class="label">Total cost</div><div class="value">£6.71</div><div class="muted">Latest So Energy day</div></div>
-</div>
+
+  <div class="section-title">Energy</div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-title">Electricity</div>
+      <div class="card-value">23.45 kWh</div>
+      <div class="card-small">SO EV Peak + Off-Peak</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Gas</div>
+      <div class="card-value">29.31 kWh</div>
+      <div class="card-small">Latest So Energy reading</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Total usage</div>
+      <div class="card-value">52.76 kWh</div>
+      <div class="card-small">Latest So Energy day</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Total cost</div>
+      <div class="card-value">£6.71</div>
+      <div class="card-small">Latest So Energy day</div>
+    </div>
+
+  </div>
 </section>
+
+
 <section id="gardenPage" class="page">
-<div class="section-head"><div><div class="section-title">Garden</div><div class="section-sub">Ken · Husqvarna Automower 430X</div></div></div>
-<div class="grid">
-<div class="card mower wide"><div class="mower-top"><div><div class="label">Automower</div><div id="gardenBattery" class="battery">—</div><div id="gardenState" class="muted">Loading…</div><div id="gardenConnection" class="muted">Connecting…</div></div><div class="badge">Ken</div></div></div>
-<div class="card"><div class="label">Controls</div><div class="muted">Send a command to Ken</div><div class="controls"><button class="action" onclick="mowerAction('START_MOWING')">Start</button><button class="action secondary" onclick="mowerAction('PAUSE')">Pause</button><button class="action secondary" onclick="mowerAction('PARK_UNTIL_NEXT_SCHEDULE')">Park</button></div><div id="actionResult" class="result"></div></div>
-</div>
+
+  <div class="section-title">Garden</div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-title">Automower</div>
+      <div id="gardenBattery" class="card-value">—</div>
+      <div id="gardenState" class="card-small">Loading…</div>
+      <div id="gardenConnection" class="card-small">Connecting…</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Ken controls</div>
+
+      <div class="card-small">
+        Husqvarna Automower 430X
+      </div>
+
+      <div class="button-row">
+
+        <button class="action"
+          onclick="mowerAction('START_MOWING')">
+          Start
+        </button>
+
+        <button class="action secondary"
+          onclick="mowerAction('PAUSE')">
+          Pause
+        </button>
+
+        <button class="action secondary"
+          onclick="mowerAction('PARK_UNTIL_NEXT_SCHEDULE')">
+          Park
+        </button>
+
+      </div>
+
+      <div id="actionResult" class="result"></div>
+    </div>
+
+  </div>
 </section>
+
+
 <section id="cameraPage" class="page">
-<div class="section-head"><div><div class="section-title">Cameras</div><div class="section-sub">Imou home security</div></div></div>
-<div class="toolbar"><div id="cameraCount" class="count">Loading cameras…</div><button class="action secondary" onclick="loadCameras()">Refresh</button></div>
-<div id="cameraLoading" class="loading">Connecting to your Imou cameras…</div>
-<div id="cameraGrid" class="camera-grid"></div>
+
+  <div class="section-title">Cameras</div>
+
+  <div class="camera-toolbar">
+
+    <div id="cameraCount" class="camera-count">
+      Loading cameras…
+    </div>
+
+    <button class="action secondary"
+      onclick="loadCameras()">
+      Refresh
+    </button>
+
+  </div>
+
+  <div id="cameraLoading" class="loading">
+    Connecting to your Imou cameras…
+  </div>
+
+  <div id="cameraGrid" class="camera-grid"></div>
+
 </section>
+
 </main>
-<footer class="footer">My Home · Home control & monitoring</footer>
-</div>
+
+<div class="footer">My Home</div>
+
+
 <script>
-const MOWER_ID="24846e9d-9925-4dea-a24a-a97c2da45b18";
-document.getElementById("date").textContent=new Intl.DateTimeFormat("en-GB",{weekday:"short",day:"numeric",month:"short"}).format(new Date());
-function showPage(id,btn){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));btn.classList.add("active");if(id==="cameraPage")loadCameras();}
+
+const MOWER_ID =
+"24846e9d-9925-4dea-a24a-a97c2da45b18";
+
+
+function showPage(pageId,button){
+
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
+
+  document.getElementById(pageId)
+    .classList.add("active");
+
+  document.querySelectorAll(".tab")
+    .forEach(t=>t.classList.remove("active"));
+
+  button.classList.add("active");
+
+  if(pageId==="cameraPage"){
+    loadCameras();
+  }
+}
+
+
+/* ---------------- MOWER ---------------- */
+
 async function loadMower(){
-try{
-const r=await fetch("/api/mowers");if(!r.ok)throw new Error(await r.text());
-const j=await r.json(),a=j?.data?.[0]?.attributes||{},battery=a?.battery?.batteryPercent??"—",state=a?.mower?.activity??"Unknown",connected=a?.metadata?.connected===true;
-document.getElementById("mowerBattery").textContent=battery==="—"?"—":battery+"%";
-document.getElementById("mowerState").textContent=String(state);
-document.getElementById("gardenBattery").textContent=battery==="—"?"—":battery+"% battery";
-document.getElementById("gardenState").textContent=String(state);
-document.getElementById("gardenConnection").textContent=connected?"Connected":"Unavailable";
-document.getElementById("mowerBadge").textContent=connected?"Connected":"Unavailable";
-}catch(e){document.getElementById("mowerState").textContent="Unavailable";document.getElementById("gardenState").textContent="Unable to load Ken";document.getElementById("gardenConnection").textContent="Unavailable";document.getElementById("mowerBadge").textContent="Unavailable";}
+
+  try{
+
+    const r=await fetch("/api/mowers");
+
+    if(!r.ok)
+      throw new Error(await r.text());
+
+    const j=await r.json();
+
+    const a=j?.data?.[0]?.attributes||{};
+
+    const battery=
+      a?.battery?.batteryPercent??"—";
+
+    const state=
+      a?.mower?.activity??"Unknown";
+
+    const connected=
+      a?.metadata?.connected===true;
+
+    document.getElementById("mowerBattery")
+      .textContent=
+      battery==="—"?"—":battery+"%";
+
+    document.getElementById("mowerState")
+      .textContent=String(state);
+
+    document.getElementById("gardenBattery")
+      .textContent=
+      battery==="—"?"—":battery+"% battery";
+
+    document.getElementById("gardenState")
+      .textContent=String(state);
+
+    document.getElementById("gardenConnection")
+      .textContent=
+      connected?"Connected":"Unavailable";
+
+  }catch(e){
+
+    document.getElementById("mowerState")
+      .textContent="Unavailable";
+
+    document.getElementById("gardenState")
+      .textContent="Unable to load Ken";
+
+    document.getElementById("gardenConnection")
+      .textContent="Unavailable";
+  }
 }
+
+
 async function mowerAction(action){
-const box=document.getElementById("actionResult");box.textContent="Sending command…";
-try{const r=await fetch("/api/mowers/"+MOWER_ID+"/actions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action})});const j=await r.json();if(!r.ok||j.error)throw new Error(j.error||"Command failed");box.textContent="Command sent.";setTimeout(loadMower,3000);}catch(e){box.textContent="Error: "+e.message;}
+
+  const box=
+    document.getElementById("actionResult");
+
+  box.textContent="Sending command…";
+
+  try{
+
+    const r=
+      await fetch(
+        "/api/mowers/"+MOWER_ID+"/actions",
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({action})
+        }
+      );
+
+    const j=await r.json();
+
+    if(!r.ok||j.error)
+      throw new Error(j.error||"Command failed");
+
+    box.textContent="Command sent.";
+
+    setTimeout(loadMower,3000);
+
+  }catch(e){
+
+    box.textContent="Error: "+e.message;
+
+  }
 }
+
+
+/* ---------------- CAMERAS ---------------- */
+
 async function loadCameras(){
-const loading=document.getElementById("cameraLoading"),grid=document.getElementById("cameraGrid"),count=document.getElementById("cameraCount");
-loading.style.display="block";grid.innerHTML="";count.textContent="Connecting…";
-try{const response=await fetch("/api/imou/streams");if(!response.ok)throw new Error(await response.text());const data=await response.json(),cameras=data.cameras||[];loading.style.display="none";count.textContent=cameras.length+(cameras.length===1?" camera":" cameras");
-if(!cameras.length){grid.innerHTML='<div class="empty">No cameras found.</div>';return;}
-cameras.forEach((camera,index)=>{const card=document.createElement("div");card.className="camera-card";let name=camera.name;if(!name||/^\d+$/.test(name))name="Camera "+(index+1);if(name==="PT Lens")name="PT Camera";if(name==="Fixed Lens")name="Fixed Camera";
-const preview=document.createElement("div");preview.className="camera-preview";preview.textContent=camera.hls?"LIVE STREAM READY":"Stream unavailable";card.appendChild(preview);
-const info=document.createElement("div");info.className="camera-info";const title=document.createElement("div");title.className="camera-name";title.textContent=name;info.appendChild(title);
-const status=document.createElement("div");status.className="camera-status";status.textContent=camera.hls?"● Live available":"Unavailable";info.appendChild(status);
-if(camera.hls){const live=document.createElement("video");live.src="/api/imou/stream?deviceId="+encodeURIComponent(camera.deviceId)+"&channelId="+encodeURIComponent(camera.channelId);live.autoplay=true;live.muted=true;live.playsInline=true;live.controls=true;info.appendChild(live);}
-card.appendChild(info);grid.appendChild(card);});}catch(error){loading.style.display="none";count.textContent="Camera error";grid.innerHTML='<div class="empty">'+escapeHtml(error.message)+'</div>';}}
-function escapeHtml(v){return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
-loadMower();setInterval(loadMower,30000);
+
+  const loading=
+    document.getElementById("cameraLoading");
+
+  const grid=
+    document.getElementById("cameraGrid");
+
+  const count=
+    document.getElementById("cameraCount");
+
+  loading.style.display="block";
+  grid.innerHTML="";
+  count.textContent="Connecting…";
+
+  try{
+
+    const response=
+      await fetch("/api/imou/streams");
+
+    if(!response.ok)
+      throw new Error(await response.text());
+
+    const data=
+      await response.json();
+
+    const cameras=
+      data.cameras||[];
+
+    loading.style.display="none";
+
+    count.textContent=
+      cameras.length+
+      (cameras.length===1?" camera":" cameras");
+
+
+    if(!cameras.length){
+
+      grid.innerHTML=
+        '<div class="empty">No cameras found.</div>';
+
+      return;
+    }
+
+
+    cameras.forEach((camera,index)=>{
+
+      const card=
+        document.createElement("div");
+
+      card.className="camera-card";
+
+
+      let name=camera.name;
+
+      if(!name||/^\d+$/.test(name))
+        name="Camera "+(index+1);
+
+      if(name==="PT Lens")
+        name="PT Camera";
+
+      if(name==="Fixed Lens")
+        name="Fixed Camera";
+
+
+      const preview=
+        document.createElement("div");
+
+      preview.className="camera-preview";
+
+      preview.textContent=
+        camera.hls
+          ?"LIVE STREAM READY"
+          :"Stream unavailable";
+
+
+      card.appendChild(preview);
+
+
+      const info=
+        document.createElement("div");
+
+      info.className="camera-info";
+
+
+      const title=
+        document.createElement("div");
+
+      title.className="camera-name";
+      title.textContent=name;
+
+      info.appendChild(title);
+
+
+      const status=
+        document.createElement("div");
+
+      status.className="camera-status";
+
+      status.textContent=
+        camera.hls
+          ?"● Live available"
+          :"Unavailable";
+
+      info.appendChild(status);
+
+
+      if(camera.hls){
+
+  const live = document.createElement("video");
+
+  live.style.width = "100%";
+  live.style.borderRadius = "10px";
+  live.style.background = "#000";
+
+  live.src =
+    "/api/imou/stream?deviceId=" +
+    encodeURIComponent(camera.deviceId) +
+    "&channelId=" +
+    encodeURIComponent(camera.channelId);
+
+  live.autoplay = true;
+  live.muted = true;
+  live.playsInline = true;
+  live.controls = true;
+
+  info.appendChild(live);
+}
+
+
+      card.appendChild(info);
+
+      grid.appendChild(card);
+
+    });
+
+  }catch(error){
+
+    loading.style.display="none";
+
+    count.textContent="Camera error";
+
+    grid.innerHTML=
+      '<div class="empty">'+
+      escapeHtml(error.message)+
+      '</div>';
+  }
+}
+
+
+function escapeHtml(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+loadMower();
+
+setInterval(loadMower,30000);
+
 </script>
+
 </body>
 </html>
